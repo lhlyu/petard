@@ -1,9 +1,28 @@
-:root{
-  --themeColor: $themeColor;
-  --themeColor1: $themeColor1;
-  --themeColor2: $themeColor2;
-  --themeBgColor: $themeBgColor;
-  --themeFontColor: $themeFontColor;
-  --linkFontColor: $linkFontColor;
-  --fontSize: $fontSize;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.#{$prefix}root{
+  --themeColor: #{$themeColor};
+  --themeColor1: #{$themeColor1};
+  --themeColor2: #{$themeColor2};
+  --themeBgColor: #{$themeBgColor};
+  --themeFontColor: #{$themeFontColor};
+  --linkFontColor: #{$linkFontColor};
+  --fontSize: #{$fontSize};
+
+  a{
+    font-size: var(--fontSize);
+    color: var(--linkFontColor);
+    text-decoration: none;
+  }
+
+  ul{
+    li{
+      list-style-type: none;
+    }
+  }
 }
