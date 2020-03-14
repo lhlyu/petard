@@ -12,8 +12,9 @@ const mixin = {
         init() {
 
         },
-        scrollTop(){
-
+        scrollTop(cb){
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+            setTimeout(cb, 500)
         }
     }
 }

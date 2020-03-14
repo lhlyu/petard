@@ -18,13 +18,11 @@
   animation: 1.5s linear 0s normal none infinite wave;
 }
 
-$menuSize: 80px;
+$menuSize: 60px;
 
-.#{$prefix}menu-default{
-  position: fixed;
-  z-index: 999;
+.#{$prefix}menu{
 
-  &.#{$prefix}menu-bottom{
+  &-bottom{
     bottom: 50px;
     left: 50%;
     transform: translate3d(-50%,0,0);
@@ -33,7 +31,7 @@ $menuSize: 80px;
     }
   }
 
-  &.#{$prefix}menu-left{
+  &-left{
     left: 50px;
     top: 50%;
     transform: translate3d(0,-50%,0);
@@ -42,7 +40,7 @@ $menuSize: 80px;
     }
   }
 
-  &.#{$prefix}menu-right{
+  &-right{
     right: 50px;
     top: 50%;
     transform: translate3d(0,-50%,0);
@@ -51,60 +49,69 @@ $menuSize: 80px;
     }
   }
 
-  ul{
-    position: relative;
-    display: flex;
-    animation: rise 0.6s linear forwards;
-    li{
-      background: var(--themeBgColor);
-      box-shadow: 0 0 5px 1px rgba(#000,0.7),0 0 10px 3px rgba(#000,0.1);
-      display: inline;
-      height: $menuSize;
-      width: $menuSize;
-      text-align: center;
-      line-height: $menuSize;
-      border-radius: 50%;
-      margin: 10px;
+
+  &-default{
+    position: fixed;
+    z-index: 999;
+
+    ul{
       position: relative;
-      opacity: 1;
-      transition: all 0.4s linear;
-      cursor: pointer;
-      &:hover{
-        i{
-          color: var(--themeColor);
-          text-shadow: 0 0 1px var(--themeColor);
-        }
-      }
-
-      &.active{
-        i{
-          color: var(--themeColor);
-          text-shadow: 0 0 1px var(--themeColor);
-        }
-      }
-
-      i{
-        font-size: $menuSize * 0.375;
-        transition: color 0.3s linear;
-        text-shadow: 0 0 1px var(--themeFontColor);
-        color: var(--themeFontColor);
-      }
-      img{
-        @extend %ab;
-
+      display: flex;
+      animation: rise 0.6s linear forwards;
+      li{
+        background: var(--themeBgColor);
+        box-shadow: 0 0 5px 1px rgba(#000,0.3),0 0 10px 3px rgba(#000,0.1);
+        display: inline;
+        height: $menuSize;
+        width: $menuSize;
+        text-align: center;
+        line-height: $menuSize;
         border-radius: 50%;
-        object-fit: cover;
-        filter: brightness(0.55);
-      }
-      span {
-        @extend %ab;
+        margin: 10px;
+        position: relative;
+        opacity: 1;
+        transition: all 0.4s linear;
+        cursor: pointer;
+        &:hover{
+          i{
+            color: var(--themeColor);
+            text-shadow: 0 0 1px var(--themeColor);
+          }
+        }
 
-        color: white;
-        font-size: 18px;
-        text-shadow: 0 0 1px rgba(#fff, 0.6);
-        z-index: 1000;
+        &.active{
+          background: var(--themeColor2);
+          box-shadow: 0 0 5px 1px var(--themeColor2),0 0 10px 3px var(--themeColor2);
+          i{
+            color: var(--themeBgColor);
+            text-shadow: 0 0 1px var(--themeColor2);
+          }
+        }
+
+        i{
+          font-size: $menuSize * 0.375;
+          transition: color 0.3s linear;
+          text-shadow: 0 0 1px var(--themeFontColor);
+          color: var(--themeFontColor);
+        }
+        img{
+          @extend %ab;
+
+          border-radius: 50%;
+          object-fit: cover;
+          filter: brightness(0.55);
+        }
+        span {
+          @extend %ab;
+
+          color: white;
+          font-size: 18px;
+          text-shadow: 0 0 1px rgba(#fff, 0.6);
+          z-index: 1000;
+        }
       }
     }
+
   }
 
 }

@@ -14,37 +14,7 @@
             menus:{
                 type: Array,
                 default: () => {
-                    return [{
-                        name: "首页",
-                        display: true,
-                        to:"/",
-                        active: true,
-                        icon:"iconfont icon-shouye"
-                    },{
-                        name: "文章",
-                        display: true,
-                        to:"/",
-                        active: false,
-                        icon:"iconfont icon-List"
-                    },{
-                        name: "创作",
-                        display: true,
-                        to:"/",
-                        active: false,
-                        icon:"iconfont icon-chuangzuo"
-                    },{
-                        name: "设置",
-                        display: true,
-                        to:"/",
-                        active: false,
-                        icon:"iconfont icon-shezhi"
-                    },{
-                        name: "顶部",
-                        display: true,
-                        to:"/",
-                        active: false,
-                        icon:"iconfont icon-top"
-                    }]
+                    return []
                 }
             },
             options:{
@@ -53,7 +23,6 @@
                     return {
                         theme:"default",
                         display: true,
-                        defaultImg: "",
                         position:"bottom"
                     }
                 }

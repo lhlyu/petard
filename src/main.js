@@ -4,6 +4,9 @@ import router from './router'
 import store from './store'
 import mixin from './mixin'
 
+
+import "./style/index.scss"
+
 Vue.config.productionTip = false
 
 Vue.mixin(mixin)

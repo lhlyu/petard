@@ -1,0 +1,3 @@
+@function RGBA($v,$a) {
+  @return red($v),green($v),blue($v),$a;
+}

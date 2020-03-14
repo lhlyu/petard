@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import LastOrder from '../views/pages/LastOrder'
 
 Vue.use(VueRouter)
 
@@ -8,7 +9,12 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    children:[  {
+      path: '/create',
+      name: 'LastOrder',
+      component: LastOrder
+    }]
   }
 ]
 
