@@ -18,7 +18,8 @@ export default {
       options:{
         theme:"default",
         display: true,
-        defaultImg: ""
+        defaultImg: "",
+        position:"right"
       }
     }
   },

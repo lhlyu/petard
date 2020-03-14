@@ -1,9 +1,8 @@
 <template>
-    <div :class="[`${prefix}menu-${options.theme}`]" v-show="options.display" v-if="menus.length">
+    <div :class="[`${prefix}menu-${options.theme}`,`${prefix}menu-${options.position}`]" v-show="options.display" v-if="menus.length">
         <ul>
             <li v-for="(m,i) in menus" :key=i v-if="m.display" :class="[m.active ? 'active':'']" :style="{animationDelay: `${i / 30}s`}" @click="onClick(m)">
-                <img :src="m.img" alt="">
-                <span>{{m.name}}</span>
+                <i :class="m.icon"></i>
             </li>
         </ul>
     </div>
@@ -16,83 +15,35 @@
                 type: Array,
                 default: () => {
                     return [{
-                        name: "测试撒打飞机哈弗哈市发卡",
+                        name: "首页",
                         display: true,
                         to:"/",
                         active: true,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33143.jpg"
+                        icon:"iconfont icon-shouye"
                     },{
-                        name: "测试B",
+                        name: "文章",
                         display: true,
                         to:"/",
                         active: false,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33144.jpg"
+                        icon:"iconfont icon-List"
                     },{
-                        name: "测试C",
+                        name: "创作",
                         display: true,
                         to:"/",
                         active: false,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33145.jpg"
+                        icon:"iconfont icon-chuangzuo"
                     },{
-                        name: "测试D",
+                        name: "设置",
                         display: true,
                         to:"/",
                         active: false,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33146.jpg"
+                        icon:"iconfont icon-shezhi"
                     },{
-                        name: "测试B",
+                        name: "顶部",
                         display: true,
                         to:"/",
                         active: false,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33144.jpg"
-                    },{
-                        name: "测试C",
-                        display: true,
-                        to:"/",
-                        active: false,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33145.jpg"
-                    },{
-                        name: "测试D",
-                        display: true,
-                        to:"/",
-                        active: false,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33146.jpg"
-                    },{
-                        name: "测试B",
-                        display: true,
-                        to:"/",
-                        active: false,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33144.jpg"
-                    },{
-                        name: "测试C",
-                        display: true,
-                        to:"/",
-                        active: false,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33145.jpg"
-                    },{
-                        name: "测试D",
-                        display: true,
-                        to:"/",
-                        active: false,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33146.jpg"
-                    },{
-                        name: "测试B",
-                        display: true,
-                        to:"/",
-                        active: false,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33144.jpg"
-                    },{
-                        name: "测试C",
-                        display: true,
-                        to:"/",
-                        active: false,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33145.jpg"
-                    },{
-                        name: "测试D",
-                        display: true,
-                        to:"/",
-                        active: false,
-                        img:"https://www.thiswaifudoesnotexist.net/example-33146.jpg"
+                        icon:"iconfont icon-top"
                     }]
                 }
             },
@@ -102,7 +53,8 @@
                     return {
                         theme:"default",
                         display: true,
-                        defaultImg: ""
+                        defaultImg: "",
+                        position:"bottom"
                     }
                 }
             }
