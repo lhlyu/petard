@@ -1,13 +1,10 @@
 .#{$prefix}create{
 
   &-default{
-    padding: 50px;
-    background: #e056fd;
     #lastOrder{
-      max-width: 800px;
-      width: 100%;
-      min-height: 600px;
-
+      padding: 50px;
+      width: $maxWidth;
+      margin: 0 auto;
     }
   }
 

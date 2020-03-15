@@ -52,7 +52,7 @@ export default {
         theme:"default",
         display: true,
         defaultImg: "",
-        position:"bottom"
+        position:"right"
       }
     }
   },

@@ -5,6 +5,8 @@
   box-sizing: border-box;
 }
 
+
+
 .#{$prefix}root{
   --themeColor: #{$themeColor};
   --themeColor1: #{$themeColor1};
@@ -13,6 +15,9 @@
   --themeFontColor: #{$themeFontColor};
   --linkFontColor: #{$linkFontColor};
   --fontSize: #{$fontSize};
+
+  min-height: 100vh;
+  background: $grayColor2;
 
   a{
     font-size: var(--fontSize);
