@@ -5,29 +5,12 @@
   box-sizing: border-box;
 }
 
+body{
+  background: #cccccc;
+  height: 100vh;
+}
 
-
-.#{$prefix}root{
-  --themeColor: #{$themeColor};
-  --themeColor1: #{$themeColor1};
-  --themeColor2: #{$themeColor2};
-  --themeBgColor: #{$themeBgColor};
-  --themeFontColor: #{$themeFontColor};
-  --linkFontColor: #{$linkFontColor};
-  --fontSize: #{$fontSize};
-
-  min-height: 100vh;
-  background: $grayColor2;
-
-  a{
-    font-size: var(--fontSize);
-    color: var(--linkFontColor);
-    text-decoration: none;
-  }
-
-  ul{
-    li{
-      list-style-type: none;
-    }
-  }
+#app{
+  background-size: cover;
+  padding: 50px;
 }

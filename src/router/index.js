@@ -1,21 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import LastOrder from '../views/pages/LastOrder'
+
+import Home from '@/pages/Home'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home,
-    children:[  {
-      path: '/create',
-      name: 'LastOrder',
-      component: LastOrder
-    }]
-  }
+  // {
+  //   path: '/',
+  //   name: 'Home',
+  //   component: Home,
+  // }
 ]
 
 const router = new VueRouter({
