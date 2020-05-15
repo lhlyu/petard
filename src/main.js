@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 // import mixin from './mixin'
 
+
 Vue.config.productionTip = false
 
 
