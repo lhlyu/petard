@@ -1,0 +1,32 @@
+.u-profile{
+  .ant-card-head{
+    background-color: rgba(0,0,0,.08);
+  }
+  .ant-card-body{
+    text-align: center;
+    letter-spacing: 2px;
+  }
+  .u-profile-avatar{
+    --avatar: none;
+    background: var(--avatar);
+    height: 130px;
+    background-size: contain;
+    background-repeat-x: no-repeat;
+  }
+}
+
+.u-card-title{
+  text-align: center;
+  color: rgba(0,0,0,.4);
+  font-size: 20px !important;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin: 0;
+  > i{
+    margin-right: 4px;
+  }
+}
+
+.ant-modal{
+  min-width: 750px !important;
+}

@@ -1,0 +1,119 @@
+.u-user-basic{
+  position: relative;
+  background: #212121;
+  padding-top: 90px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  overflow: hidden;
+  .u-user-avatar{
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    img{
+      border: solid 3px #ffffff;
+    }
+    span{
+      color: white;
+      font-weight: bold;
+      vertical-align: bottom;
+      display: inline-block;
+      padding-left: 30px;
+      border-bottom: solid 3px #ffffff;
+      letter-spacing: 2px;
+    }
+  }
+  .u-menu-lock{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  .u-user-logout{
+    position: absolute;
+    top: 23px;
+    right: 50px;
+    color: white;
+    font-size: 17px;
+    cursor: pointer;
+  }
+}
+
+.u-menu{
+  width:275px;
+  text-align:left;
+  &-group{
+    background: #fff;
+    box-shadow: 0 0 1px rgba(0,0,0,0.12), 0 1px 1px rgba(0,0,0,0.24);
+    position: relative;
+    z-index: 1;
+    &-icon{
+      position: absolute;
+      right: 24px;
+      top: 26px;
+      display: inline-block;
+      width: 0px;
+      height: 0px;
+      margin-left: 2px;
+      vertical-align: middle;
+      color: inherit;
+      transition: transform 0.175s ease 0s;
+      border-top: 4px solid;
+      border-right: 4px solid transparent;
+      border-left: 4px solid transparent;
+    }
+  }
+  &-item{
+    color: #212121;
+    a{
+      color: rgb(144, 144, 144);
+    }
+  }
+  &-icon{
+    display: inline-block;
+    color: #757575;
+    font-family: md;
+    width:60px;
+    vertical-align: middle;
+    font-size: 20px !important;
+    transition: color 0.14s ease 0s;
+  }
+  &-title{
+    font-size: 14px !important;
+    position: relative;
+    top: 2px;
+    white-space: pre;
+    font-weight: bold;
+    width: 147px;
+    vertical-align: top;
+    display: inline-block;
+  }
+  &-items{
+    background: #f0f0f0;
+  }
+  &-item{
+    padding-left: 16px;
+    padding-right: 56px;
+    color: rgb(144, 144, 144);
+    width: 100%;
+    height: 56px;
+    box-sizing: border-box;
+    line-height: 56px;
+    white-space: nowrap;
+    transition: background-color 0.14s ease 0s, color 0.14s ease 0s;
+    border-left: solid 2px transparent;
+    cursor: pointer;
+    &:hover{
+      background: #e0e0e0;
+    }
+    &-active{
+      border-left: solid 2px #3498db;
+      background: rgba(#3498db,0.1);
+    }
+  }
+  &-rotate{
+    transform: rotate(180deg);
+  }
+}

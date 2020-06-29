@@ -1,0 +1,19 @@
+@import "aside";
+@import "header";
+
+.u-layout{
+  min-height: 100vh;
+  display: flex;
+  .u-aside{
+    width: 275px;
+    overflow: hidden;
+    box-shadow: 2px 0 6px rgba(0,21,41,.35);
+  }
+  .u-main{
+    flex: 1;
+    background: #f0f2f5;
+    main{
+      padding: 20px;
+    }
+  }
+}

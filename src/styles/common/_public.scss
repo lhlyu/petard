@@ -1,0 +1,33 @@
+*{
+  box-sizing: content-box;
+}
+
+.u-hide{
+  display: none;
+}
+
+.u-cursor{
+  cursor: pointer;
+}
+
+.u-border-radius{
+  border-radius: $v-border-radius;
+}
+
+.u-transition{
+  transition: all 0.4s linear;
+}
+
+.u-background{
+  background: rgba(#ffffff,0.8);
+}
+
+.u-margin-bottom{
+  margin-bottom: 10px;
+}
+
+.ant-tooltip-inner {
+  min-height: auto !important;
+}
+
+
