@@ -24,63 +24,80 @@
         </a-tooltip>
       </div>
     </div>
-    <div class="u-menu" v-for="(v,i) in menus" :key="i">
-      <div class="u-menu-item u-menu-group" :ref="`menu${i}`" @click="v.children && v.children.length && triggerMenu(`menu${i}`)">
-        <router-link :to="v.path">
-          <span class="u-menu-icon"><i :class="v.icon"></i></span>
-          <span class="u-menu-title">{{v.title}}</span>
-          <span class="u-menu-group-icon" v-if="v.children && v.children.length"></span>
-        </router-link>
-      </div>
-      <div class="u-menu-items u-transition u-hide" v-if="v.children && v.children.length">
-        <div class="u-menu-item" v-for="(c,j) in v.children" :key="j">
-          <router-link :to="c.path">
-            <span class="u-menu-icon"><i :class="c.icon"></i></span>
-            <span class="u-menu-title">{{c.title}}</span>
-          </router-link>
-        </div>
-      </div>
+    <div class="u-menu">
+      <a-menu style="width: 274px" v-model="menuSelect" :open-keys="openSub" mode="inline" v-for="(v,i) in menus" :key="i" @select="handlerSelect" @openChange="handlerOpen">
+        <a-menu-item :key="v.name" v-if="!v.children || v.children.length === 0">
+          <i class="u-menu-icon" :class="v.icon"></i>
+          {{v.title}}
+        </a-menu-item>
+        <a-sub-menu :key="v.name" v-else>
+          <span slot="title">
+            <i class="u-menu-icon" :class="v.icon"></i><span>{{v.title}}</span>
+          </span>
+          <a-menu-item :key="w.name" v-for="w in v.children">
+            <i class="u-menu-icon" :class="w.icon"></i>
+            {{w.title}}
+          </a-menu-item>
+        </a-sub-menu>
+      </a-menu>
     </div>
   </aside>
 </template>
 
 <script>
 
+import menus from '../../../../config/menus'
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'index',
+  watch: {
+    $route (val, oldVal) {
+      this.activeMenu(val)
+    }
+  },
   data () {
     return {
+      menuSelect: [],
+      openSub: []
     }
   },
   methods: {
     ...mapMutations(['SET_OPTIONS']),
     ...mapActions(['LOGOUT']),
+    init () {
+      this.activeMenu(this.$route)
+    },
+    activeMenu (route) {
+      Object.values(menus).forEach(v => {
+        if (v.path === route.path) {
+          this.menuSelect = [v.name]
+          if (v.upper !== 'admin') {
+            this.openSub.push(v.upper)
+          }
+        }
+      })
+    },
     triggerLock () {
       const options = this.getOptions
       options.lockMenu = !options.lockMenu
       this.SET_OPTIONS(options)
     },
-    triggerMenu (ref) {
-      const dom = this.$refs[ref][0]
-      const nextDom = dom.nextSibling
-      if (!nextDom) {
-        return
-      }
-      const lastDom = dom.getElementsByClassName('u-menu-group-icon')[0]
-      if (nextDom.classList.contains('u-hide')) {
-        nextDom.classList.remove('u-hide')
-        lastDom.classList.add('u-menu-rotate')
-        return
-      }
-      nextDom.classList.add('u-hide')
-      lastDom.classList.remove('u-menu-rotate')
-    },
     logout () {
       sessionStorage.clear()
       this.LOGOUT()
       this.$router.push('/')
+    },
+    handlerSelect (item, key, selectedKeys) {
+      Object.values(menus).forEach(v => {
+        if (v.name === item.key) {
+          this.$router.push(v.path)
+        }
+      })
+    },
+    handlerOpen (openKeys) {
+      console.log(openKeys)
+      this.openSub = [...openKeys]
     }
   },
   computed: {

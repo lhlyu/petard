@@ -45,6 +45,9 @@
           <a-button @click="handlerClearFile">
             <a-icon type="delete" />删除文件
           </a-button>
+          <a-button @click="handlerAuto">
+            <a-icon type="border-outer" /> 自动
+          </a-button>
           <a-button @click="handlerRotateLeft">
             <a-icon type="undo" />左旋90°
           </a-button>
@@ -116,6 +119,15 @@ export default {
     },
     handlerClearFile () {
       this.option.img = null
+      this.preview = null
+      this.$refs.fileElem.value = ''
+    },
+    handlerAuto () {
+      const { x1, x2, y1, y2 } = this.$refs.cropper.getImgAxis()
+      this.option.autoCropWidth = x2 - x1
+      this.option.autoCropHeight = y2 - y1
+      this.$refs.cropper.stopCrop()
+      this.$refs.cropper.startCrop()
     },
     handlerRotateLeft () {
       this.$refs.cropper.rotateLeft()

@@ -1,62 +1,37 @@
 <template>
   <div class="u-profile">
     <a-spin :spinning="loading" v-if="item">
-      <a-row :gutter="[15,15]">
-        <a-col :span="6">
-          <a-card :bordered="false">
-            <p slot="title" class="u-card-title"><i class="fa fa-id-card-o"></i>账号 / ID</p>
+      <a-card  title="个人信息">
+        <a-descriptions bordered :column="1">
+          <a-descriptions-item label="头像">
+            <img :src="item.avatar" width="150" class="u-cursor" @click="avatarVisible = true">
+          </a-descriptions-item>
+          <a-descriptions-item label="账号 / ID">
             {{item.account}} / {{item.id}}
-          </a-card>
-        </a-col>
-        <a-col :span="6">
-          <a-card :bordered="false" class="u-cursor" @click="nickNameVisible = true">
-            <p slot="title" class="u-card-title"><i class="fa fa-user-o"></i>昵称</p>
-            {{item.nickName}}
-          </a-card>
-        </a-col>
-        <a-col :span="6">
-          <a-card :bordered="false">
-            <p slot="title" class="u-card-title"><i class="fa fa-clock-o"></i>上次登陆</p>
-            <Time :time="item.lastAt"></Time>
-          </a-card>
-        </a-col>
-        <a-col :span="6">
-          <a-card :bordered="false">
-            <p slot="title" class="u-card-title"><i class="fa fa-clock-o"></i>创建时间</p>
-            <Time :time="item.createdAt"></Time>
-          </a-card>
-        </a-col>
-        <a-col :span="6">
-          <a-card :bordered="false">
-            <p slot="title" class="u-card-title"><i class="fa fa-github"></i>来源</p>
+          </a-descriptions-item>
+          <a-descriptions-item label="昵称">
+            <span class="u-cursor" @click="nickNameVisible = true">{{item.nickName}} <a-icon type="edit" /></span>
+          </a-descriptions-item>
+          <a-descriptions-item label="来源">
             {{item.source}}
-          </a-card>
-        </a-col>
-        <a-col :span="6">
-          <a-card :bordered="false">
-            <p slot="title" class="u-card-title"><i class="fa fa-home"></i>个人地址</p>
+          </a-descriptions-item>
+          <a-descriptions-item label="上次登陆">
+            <Time :time="item.lastAt"></Time>
+          </a-descriptions-item>
+          <a-descriptions-item label="创建时间">
+            <Time :time="item.createdAt"></Time>
+          </a-descriptions-item>
+          <a-descriptions-item label="个人地址">
             <a :href="item.url" target="_blank">地址</a>
-          </a-card>
-        </a-col>
-        <a-col :span="6">
-          <a-card :bordered="false" class="u-cursor" @click="securityVisible = true">
-            <p slot="title" class="u-card-title"><i class="fa fa-lock"></i>安全 / 密码</p>
-            <a href="#">修改</a>
-          </a-card>
-        </a-col>
-      </a-row>
-      <a-row :gutter="[15,15]">
-        <a-col :span="12">
-          <a-card :bordered="false" class="u-cursor" @click="bioVisible = true">
-            <p slot="title" class="u-card-title"><i class="fa fa-hashtag"></i>个性签名</p>
-            {{item.bio}}
-          </a-card>
-        </a-col>
-        <a-col :span="6">
-          <a-card :bordered="false" class="u-profile-avatar u-cursor" :style="`--avatar: url('${item.avatar}')`" @click="avatarVisible = true">
-          </a-card>
-        </a-col>
-      </a-row>
+          </a-descriptions-item>
+          <a-descriptions-item label="安全 / 密码">
+            <a href="#" @click="securityVisible = true">修改 <a-icon type="edit" /></a>
+          </a-descriptions-item>
+          <a-descriptions-item label="个性签名">
+            <span class="u-cursor" @click="bioVisible = true">{{item.bio}} <a-icon type="edit" /></span>
+          </a-descriptions-item>
+        </a-descriptions>
+      </a-card>
     </a-spin>
     <a-modal v-model="securityVisible" :destroyOnClose="true" title="修改密码" @ok="handleOk(1)" @cancel="handlerCancel">
       <a-form layout="horizontal" labelAlign="left" :labelCol="{ span: 4 }" :wrapperCol="{ span: 20 }">

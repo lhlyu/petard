@@ -64,10 +64,10 @@
         </a-form>
       </a-tab-pane>
       <a-tab-pane key="2" tab="其他信息" :forceRender="true">
-        <img :src="req.cover" height="200">
-        <br v-if="req.cover.length">
-        <br v-if="req.cover.length">
         <Upload @success="handlerUpload"></Upload>
+        <br v-if="req.cover.length">
+        <br v-if="req.cover.length">
+        <img :src="req.cover" height="200">
       </a-tab-pane>
       <a-tab-pane key="3" tab="文章内容" :forceRender="true">
         <div id="vditor"></div>
@@ -171,6 +171,7 @@ export default {
       this.categorys = result.data.list
     },
     handlerUpload (data) {
+      console.log('data:', data)
       this.req.cover = data.url
     },
     async save () {

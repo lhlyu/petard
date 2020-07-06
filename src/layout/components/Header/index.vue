@@ -9,10 +9,10 @@
       </a-breadcrumb>
     </div>
     <div class="u-header-right">
-      <a href="https://lhlyu.github.io/petard/docs" target="_blank" style="margin-right: 50px">文档</a>
+      <a href="https://lhlyu.github.io/petard/docs" target="_blank" style="margin-right: 40px">文档</a>
       <a-dropdown>
         <a class="ant-dropdown-link">
-          <a-avatar size="small" icon="user" :src="profile.avatar" style="margin-right: 5px" /> {{profile.nickName}}.{{profile.roleName}} <a-icon type="down" />
+          <a-avatar size="small" icon="user" :src="profile.avatar" style="margin-right: 5px" /> {{profile.nickName}}
         </a>
         <a-menu slot="overlay">
           <a-menu-item>

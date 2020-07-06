@@ -15,7 +15,7 @@ const menus = {
   category: { title: '文章分类', name: 'category', icon: 'fa fa-bookmark-o', path: '/admin/article/category', upper: 'article' },
   // ----------------------------------------------------------------------------------------------
   comment: { title: '评论管理', name: 'comment', icon: 'fa fa-commenting-o', path: '/admin/comment', upper: 'admin' },
-  demo: { title: '示例页面', name: 'demo', icon: 'fa fa-web', path: '/admin/demo', upper: 'admin' }
+  demo: { title: '示例页面', name: 'demo', icon: 'fa fa-star-o', path: '/admin/demo', upper: 'admin' }
 
 }
 

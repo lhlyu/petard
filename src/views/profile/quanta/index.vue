@@ -20,11 +20,11 @@
         <a-col :span="24">
           <a-card>
             <a-table :pagination="req" :columns="columns" :data-source="items">
-           <span slot="action" slot-scope="record">
-              <a @click="handlerEdit(record)">编辑</a>
-              <a-divider type="vertical" />
-              <a @click="del(record)">删除</a>
-            </span>
+             <span slot="action" slot-scope="record">
+                <a @click="handlerEdit(record)">编辑</a>
+                <a-divider type="vertical" />
+                <a @click="del(record)">删除</a>
+              </span>
             </a-table>
           </a-card>
         </a-col>

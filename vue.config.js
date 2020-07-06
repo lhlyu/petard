@@ -4,21 +4,21 @@ module.exports = {
   devServer: {
     port: 8000 // 端口
   },
-  publicPath: isProduction ? 'https://cdn.jsdelivr.net/gh/lhlyu/petard@gh-pages/' : '/'
-  // css: {
-  //   loaderOptions: {
-  //     less: {
-  //       lessOptions: {
-  //         modifyVars: {
-  //           'primary-color': '#1DA57A',
-  //           'link-color': '#1DA57A',
-  //           'border-radius-base': '2px'
-  //         },
-  //         javascriptEnabled: true
-  //       }
-  //     }
-  //   }
-  // }
+  publicPath: isProduction ? 'https://cdn.jsdelivr.net/gh/lhlyu/petard@gh-pages/' : '/',
+  css: {
+    loaderOptions: {
+      less: {
+        lessOptions: {
+          javascriptEnabled: true,
+          modifyVars: {
+            'primary-color': '#722ed1',
+            'link-color': '#722ed1',
+            'border-radius-base': '5px'
+          }
+        }
+      }
+    }
+  }
   // chainWebpack: (config) => {
   //   //忽略的打包文件
   //   config.externals({
