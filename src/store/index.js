@@ -15,13 +15,13 @@ export default new Vuex.Store({
     token: '',
     codes: [],
     profile: null,
-    options: null
+    options: null,
+    dict: null
   },
   getters: {
     getOptions: state => {
       return Object.assign({
-        lockMenu: false,
-        pageSize: 6
+        lockMenu: false
       }, state.options)
     }
   },
@@ -40,6 +40,9 @@ export default new Vuex.Store({
     SET_OPTIONS (state, val) {
       state.options = val
     },
+    SET_DICT (state, val) {
+      state.dict = val
+    },
     LOGOUT (state, val) {
       state.token = ''
       state.codes = []
@@ -49,6 +52,14 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async SET_DICT ({ commit }, arg) {
+      const result = await request.fetchDict()
+      if (result.code) {
+        commit('SET_DICT', null)
+        return
+      }
+      commit('SET_DICT', result.data)
+    },
     async LOGOUT ({ commit }, arg) {
       const result = await request.fetchLogout()
       if (result.code) {
@@ -69,6 +80,7 @@ export default new Vuex.Store({
         codes: state.codes,
         profile: state.profile,
         options: state.options,
+        dict: state.dict,
         layout: state.layout
       }
     }

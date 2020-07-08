@@ -1,24 +1,23 @@
 import Mock from 'mockjs'
 import M from './mock'
 import api from '../api/urls'
+
 import { getUrlParams } from '../utils'
 
 export default ({ mock }) => {
   if (!mock) return
-  // 获取分类列表
-  M(api.ApiCategorys, options => {
+
+  // 获取配置列表
+  M(api.ApiQuantas, options => {
     const pageSize = parseInt(getUrlParams('pageSize', options.url))
     const pageNum = parseInt(getUrlParams('pageNum', options.url))
     const items = []
     for (let i = 0; i < pageSize; i++) {
       const item = {
-        id: Mock.Random.natural(1000, 20000),
-        name: Mock.Random.name(),
-        color: Mock.Random.color(),
-        count: Mock.Random.integer(0, 10),
-        state: Mock.Random.natural(1, 2),
-        createdAt: +new Date(Mock.Random.datetime()),
-        updatedAt: +new Date(Mock.Random.datetime())
+        id: Mock.Random.natural(1, 1000),
+        key: Mock.Random.string('power', 6, 10),
+        value: Mock.Random.string('power', 10, 20),
+        state: Mock.Random.natural(1, 2)
       }
       items.push(item)
     }
@@ -29,29 +28,29 @@ export default ({ mock }) => {
         page: {
           pageSize: pageSize,
           pageNum: pageNum,
-          total: 50
+          total: 100
         },
         list: items
       }
     }
   })
 
-  // 添加分类
-  M(api.ApiAddCategory, {
+  // 添加配置信息
+  M(api.ApiAddQuanta, {
     code: 0,
     message: 'success',
     data: null
   })
 
-  // 更新分类
-  M(api.ApiUpdCategory, {
+  // 更新配置信息
+  M(api.ApiUpdQuanta, {
     code: 0,
     message: 'success',
     data: null
   })
 
-  // 删除分类
-  M(api.ApiDelCategory, {
+  // 删除配置信息
+  M(api.ApiDelQuanta, {
     code: 0,
     message: 'success',
     data: null

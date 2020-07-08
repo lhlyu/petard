@@ -60,7 +60,7 @@
         </a-form-item>
       </a-form>
     </a-modal>
-    <a-modal v-model="avatarVisible" :destroyOnClose="true" title="头像" @ok="handleOk(4)" @cancel="handlerCancel">
+    <a-modal :width="800" v-model="avatarVisible" :destroyOnClose="true" title="头像" @ok="handleOk(4)" @cancel="handlerCancel">
       <Uploadx @success="handlerAvatarUpload"></Uploadx>
     </a-modal>
   </div>

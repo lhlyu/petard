@@ -58,6 +58,8 @@ export default {
   // 更新评论
   ApiUpdComment: S('/api/comment', U),
   // ------------------------------------------------------------
+  // 字典
+  ApiDict: S('/api/dict'),
   // 最近十天访问量数据
   ApiViewStat: S('/api/view/stat'),
   // 数据统计

@@ -10,7 +10,7 @@ import 'ant-design-vue/dist/antd.less'
 import 'animate.css'
 import './styles/index.scss'
 
-import 'vditor/src/assets/scss/index.scss'
+import 'vditor/dist/index.css'
 
 import './mixins'
 import './directives'

@@ -4,7 +4,8 @@ import user from './mock_user'
 import article from './mock_article'
 import category from './mock_category'
 import comment from './mock_comment'
-import stat from './mock_stat'
+import other from './mock_other'
+import quanta from './mock_quanta'
 
 /**
  * 模拟数据mock
@@ -21,4 +22,5 @@ user({ mock: enable })
 article({ mock: enable })
 category({ mock: enable })
 comment({ mock: enable })
-stat({ mock: enable })
+other({ mock: enable })
+quanta({ mock: enable })

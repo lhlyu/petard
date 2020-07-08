@@ -63,6 +63,7 @@
 | :-------------:|:-------------:|:-----:|
 | id             | int           | 主键  |
 | name          | varchar(20)    | 分类名   |
+| color         | varchar(50)    | 颜色   |
 | count         | int            | 关联文章数量  |
 | state          | tinyint       | 分类状态 |
 | created_at     | bigint        | 创建时间戳 |
@@ -75,6 +76,9 @@
 | id             | int           | 主键  |
 | key            | varchar(20)   | Key   |
 | value          | varchar(20)   | Value |
+| state          | tinyint       | 状态  |
+| created_at     | bigint        | 创建时间戳 |
+| updated_at     | bigint        | 更新时间戳 |
 
 ## 字典表
 

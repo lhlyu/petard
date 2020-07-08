@@ -23,7 +23,7 @@
 <script>
 // 登陆板
 
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 // import routes from '../../router/basic_routers'
 //
 // import Demo from '@/views/demo/index.vue'
@@ -47,6 +47,7 @@ export default {
   },
   methods: {
     ...mapMutations(['SET_TOKEN', 'SET_CODES', 'SET_PROFILE', 'SET_OPTIONS', 'SET_MENUS']),
+    ...mapActions(['SET_DICT']),
     login () {
       if (this.isEmpty(this.req.account)) {
         this.$message.warning('账号为空！')
@@ -62,6 +63,7 @@ export default {
           this.$message.warning(v.message)
           return
         }
+        that.SET_DICT()
         const codes = [9999]
         that.SET_TOKEN(v.data.token)
         that.SET_CODES(codes)

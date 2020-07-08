@@ -121,8 +121,12 @@ export default {
       this.option.img = null
       this.preview = null
       this.$refs.fileElem.value = ''
+      this.$refs.cropper.refresh()
     },
     handlerAuto () {
+      // console.clear()
+      // console.log(this.$refs.cropper.getImgAxis())
+      // console.log(this.$refs.cropper.getCropAxis())
       const { x1, x2, y1, y2 } = this.$refs.cropper.getImgAxis()
       this.option.autoCropWidth = x2 - x1
       this.option.autoCropHeight = y2 - y1

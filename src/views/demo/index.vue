@@ -1,14 +1,55 @@
 <template>
   <div>
-    <Table :columns="columns" :datas="items">
-      <template #:id="row">{{row}}</template>
-    </Table>
+    <a-spin size="large" :spinning="loading">
+      <a-row :gutter="[15, 15]">
+        <a-col :span="24">
+          <a-card title="搜索">
+            <a slot="extra" href="#"><a-icon type="plus-square" /> 新增</a>
+            <a-form layout="inline">
+              <a-form-item label="key">
+                <a-input allowClear :maxLength="16" v-model="req.key"></a-input>
+              </a-form-item>
+              <a-form-item>
+                <a-button icon="search" @click="search">搜索</a-button>
+              </a-form-item>
+              <a-form-item>
+                <a-button icon="plus" @click="handlerAdd">添加</a-button>
+              </a-form-item>
+            </a-form>
+          </a-card>
+        </a-col>
+        <a-col :span="24">
+          <a-card>
+            <a-table :pagination="req" :columns="columns" :data-source="items">
+             <span slot="action" slot-scope="record">
+                <a-button type="primary" size="small" icon="edit"  @click="handlerEdit(record)">
+                  编辑
+                </a-button>
+                <a-divider type="vertical" />
+                <a-button type="danger" size="small" icon="delete"  @click="del(record)">
+                  删除
+                </a-button>
+              </span>
+            </a-table>
+          </a-card>
+        </a-col>
+      </a-row>
+    </a-spin>
+    <a-modal v-model="visible" :destroyOnClose="true" :title="editReq.title" @ok="handleOk" @cancel="handlerCancel">
+      <a-form layout="horizontal" labelAlign="left" :labelCol="{ span: 4 }" :wrapperCol="{ span: 20 }">
+        <a-form-item label="key">
+          <a-input placeholder="key" allowClear v-model="editReq.key" />
+        </a-form-item>
+        <a-form-item label="value">
+          <a-input placeholder="value" allowClear v-model="editReq.value" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
 <script>
 
-import Table from '@/components/Table'
 import { isEmpty } from '@/utils'
 
 const columns = [
@@ -31,6 +72,12 @@ const columns = [
     scopedSlots: { customRender: 'value' }
   },
   {
+    title: '状态',
+    dataIndex: 'state',
+    key: 'state',
+    scopedSlots: { customRender: 'state' }
+  },
+  {
     title: '操作',
     key: 'action',
     scopedSlots: { customRender: 'action' }
@@ -39,9 +86,6 @@ const columns = [
 
 export default {
   name: 'index',
-  components: {
-    Table
-  },
   data () {
     return {
       columns,
@@ -82,7 +126,6 @@ export default {
         return
       }
       this.items = result.data.list
-      console.log(this.items)
       this.req = Object.assign(this.req, result.data.page)
       this.req.current = this.req.pageNum
       this.loading = false

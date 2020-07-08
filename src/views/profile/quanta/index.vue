@@ -1,7 +1,7 @@
 <template>
   <div>
     <a-spin :spinning="loading">
-      <a-row :gutter="[0,15]">
+      <a-row :gutter="[15, 15]">
         <a-col :span="24">
           <a-card>
             <a-form layout="inline">
@@ -21,9 +21,13 @@
           <a-card>
             <a-table :pagination="req" :columns="columns" :data-source="items">
              <span slot="action" slot-scope="record">
-                <a @click="handlerEdit(record)">编辑</a>
+                <a-button type="primary" size="small" icon="edit"  @click="handlerEdit(record)">
+                  编辑
+                </a-button>
                 <a-divider type="vertical" />
-                <a @click="del(record)">删除</a>
+                <a-button type="danger" size="small" icon="delete"  @click="del(record)">
+                  删除
+                </a-button>
               </span>
             </a-table>
           </a-card>
@@ -64,10 +68,16 @@ const columns = [
     title: 'Value',
     dataIndex: 'value',
     key: 'value',
-    scopedSlots: { customRender: 'key' }
+    scopedSlots: { customRender: 'value' }
   },
   {
-    title: 'Action',
+    title: '状态',
+    dataIndex: 'state',
+    key: 'state',
+    scopedSlots: { customRender: 'state' }
+  },
+  {
+    title: '操作',
     key: 'action',
     scopedSlots: { customRender: 'action' }
   }
