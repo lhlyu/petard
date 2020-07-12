@@ -37,6 +37,8 @@
 | comment:ext     | a           |  头像 | 用户扩展信息 |
 | comment:ext     | n           |  昵称 | 用户扩展信息 |
 | comment:ext     | u           |  个人地址 | 用户扩展信息 |
+| comment:ext     | t           |  文章title | 用户扩展信息 |
+| comment:ext     | c           |  At用户的评论内容 | 用户扩展信息 |
 
 
 ## 分类字典

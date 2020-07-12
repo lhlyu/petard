@@ -17,7 +17,7 @@ export default ({ mock }) => {
         nickName: Mock.Random.cname(),
         source: 'github',
         avatar: `http://www.thiswaifudoesnotexist.net/example-${Mock.Random.natural(5000, 10000)}.jpg`,
-        bio: Mock.Random.cword(16),
+        bio: Mock.Random.cparagraph(1, 3),
         url: 'https://github.com/lhlyu/petard',
         ip: Mock.Random.ip(),
         identity: Mock.Random.natural(1, 3),
@@ -39,6 +39,29 @@ export default ({ mock }) => {
         },
         list: items
       }
+    }
+  })
+
+  // 获取用户信息
+  M(api.ApiUser, options => {
+    const id = parseInt(getUrlParams('id', options.url))
+    const item = {
+      id: id,
+      account: Mock.Random.string('power', 6),
+      nickName: Mock.Random.cname(),
+      source: 'github',
+      avatar: `http://www.thiswaifudoesnotexist.net/example-${Mock.Random.natural(5000, 10000)}.jpg`,
+      bio: Mock.Random.cparagraph(1, 3),
+      url: 'https://github.com/lhlyu/petard',
+      ip: Mock.Random.ip(),
+      identity: Mock.Random.natural(1, 3),
+      state: Mock.Random.natural(1, 2),
+      lastAt: +new Date(Mock.Random.datetime())
+    }
+    return {
+      code: 0,
+      message: 'success',
+      data: item
     }
   })
 

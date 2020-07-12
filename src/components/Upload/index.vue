@@ -1,7 +1,7 @@
 <template>
   <div>
-    <a-row :gutter="[15,15]">
-      <a-col :span="12">
+    <el-row :gutter="15">
+      <el-col :span="12">
         <VueCropper
           style="height: 300px"
           ref="cropper"
@@ -28,38 +28,41 @@
           :mode="option.mode"
           @real-time="handlerRealTime"
         ></VueCropper>
-      </a-col>
-      <a-col :span="12">
+      </el-col>
+      <el-col :span="12">
         <div class="u-preview" v-if="preview" :style="{'width': preview.w + 'px', 'height': preview.h + 'px'}">
           <div :style="preview.div">
             <img :src="preview.url" :style="preview.img">
           </div>
         </div>
-      </a-col>
-      <a-col :span="24">
+      </el-col>
+    </el-row>
+    <br>
+    <el-row>
+      <el-col :span="24">
         <input type="file" style="display: none;" ref="fileElem" @change="handlerSelectFile">
-        <a-button-group>
-          <a-button @click="handlerOpenDir">
-            <a-icon type="folder-open" />选择文件
-          </a-button>
-          <a-button @click="handlerClearFile">
-            <a-icon type="delete" />删除文件
-          </a-button>
-          <a-button @click="handlerAuto">
-            <a-icon type="border-outer" /> 自动
-          </a-button>
-          <a-button @click="handlerRotateLeft">
-            <a-icon type="undo" />左旋90°
-          </a-button>
-          <a-button @click="handlerRotateRight">
-            <a-icon type="redo" />右旋90°
-          </a-button>
-          <a-button v-if="preview" @click="handlerUpload">
-            <a-icon type="cloud-upload" />上传
-          </a-button>
-        </a-button-group>
-      </a-col>
-    </a-row>
+        <el-button-group>
+          <el-button icon="el-icon-folder-opened" size="mini" @click="handlerOpenDir">
+            选择文件
+          </el-button>
+          <el-button icon="el-icon-delete" size="mini" @click="handlerClearFile">
+            删除文件
+          </el-button>
+          <el-button icon="el-icon-aim" size="mini" @click="handlerAuto">
+            自动
+          </el-button>
+          <el-button icon="el-icon-refresh-left" size="mini" @click="handlerRotateLeft">
+            左旋90°
+          </el-button>
+          <el-button icon="el-icon-refresh-right" size="mini" @click="handlerRotateRight">
+            右旋90°
+          </el-button>
+          <el-button v-if="preview" icon="el-icon-upload" size="mini" @click="handlerUpload">
+            上传
+          </el-button>
+        </el-button-group>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -124,9 +127,6 @@ export default {
       this.$refs.cropper.refresh()
     },
     handlerAuto () {
-      // console.clear()
-      // console.log(this.$refs.cropper.getImgAxis())
-      // console.log(this.$refs.cropper.getCropAxis())
       const { x1, x2, y1, y2 } = this.$refs.cropper.getImgAxis()
       this.option.autoCropWidth = x2 - x1
       this.option.autoCropHeight = y2 - y1

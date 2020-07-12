@@ -1,112 +1,165 @@
 <template>
-  <div>
-    <a-spin :spinning="loading">
-      <a-row :gutter="[15, 15]">
-        <a-col :span="24">
-          <a-card>
-            <a-form layout="inline">
-              <a-form-item label="key">
-                <a-input allowClear :maxLength="16" v-model="req.key"></a-input>
-              </a-form-item>
-              <a-form-item>
-                <a-button icon="search" @click="search">搜索</a-button>
-              </a-form-item>
-              <a-form-item>
-                <a-button icon="plus" @click="handlerAdd">添加</a-button>
-              </a-form-item>
-            </a-form>
-          </a-card>
-        </a-col>
-        <a-col :span="24">
-          <a-card>
-            <a-table :pagination="req" :columns="columns" :data-source="items">
-             <span slot="action" slot-scope="record">
-                <a-button type="primary" size="small" icon="edit"  @click="handlerEdit(record)">
-                  编辑
-                </a-button>
-                <a-divider type="vertical" />
-                <a-button type="danger" size="small" icon="delete"  @click="del(record)">
-                  删除
-                </a-button>
-              </span>
-            </a-table>
-          </a-card>
-        </a-col>
-      </a-row>
-    </a-spin>
-    <a-modal v-model="visible" :destroyOnClose="true" :title="editReq.title" @ok="handleOk" @cancel="handlerCancel">
-      <a-form layout="horizontal" labelAlign="left" :labelCol="{ span: 4 }" :wrapperCol="{ span: 20 }">
-        <a-form-item label="key">
-          <a-input placeholder="key" allowClear v-model="editReq.key" />
-        </a-form-item>
-        <a-form-item label="value">
-          <a-input placeholder="value" allowClear v-model="editReq.value" />
-        </a-form-item>
-      </a-form>
-    </a-modal>
+  <div v-loading="loading">
+    <el-row>
+      <el-collapse-transition>
+        <el-card shadow="never" v-show="searchShow">
+          <el-form inline :model="req" ref="form" label-position="left" label-suffix=":" size="mini">
+            <el-form-item label="Key" prop="key">
+              <el-input placeholder="属性" clearable maxlength="50" show-word-limit v-model="req.key"></el-input>
+            </el-form-item>
+            <el-form-item label="状态" prop="state">
+              <el-select v-model="req.state" clearable placeholder="请选择">
+                <el-option
+                  v-for="item in dict.quanta.state"
+                  :key="item.key"
+                  :label="item.value"
+                  :value="item.key">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <br>
+            <el-form-item>
+              <el-button type="primary" plain @click="search">搜索</el-button>
+              <el-button plain @click="reset">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-collapse-transition>
+    </el-row>
+
+    <el-row>
+      <el-card shadow="never">
+        <el-table :data="items" :fit="false">
+          <el-table-column type="index" label="序号" v-if="columnShow.index"></el-table-column>
+          <el-table-column prop="id" label="主键" v-if="columnShow.id"></el-table-column>
+          <el-table-column prop="key" label="Key" v-if="columnShow.key"></el-table-column>
+          <el-table-column prop="value" label="Value" v-if="columnShow.value"></el-table-column>
+          <el-table-column prop="state" align="center" label="状态" v-if="columnShow.state">
+            <template slot-scope="scope">
+              <el-tag :type="dict.quanta.state.find(v => v.key == scope.row.state).color">{{dict.quanta.state.find(v => v.key == scope.row.state).value}}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column align="right">
+            <template slot="header" slot-scope="scope">
+              <el-tooltip placement="top" effect="light">
+                <div slot="content">{{searchShow ? '隐藏搜索' : '展开搜索'}}</div>
+                <el-button type="text" icon="el-icon-search" @click="handlerSearchShow"></el-button>
+              </el-tooltip>
+              <el-tooltip placement="top" effect="light" content="新增">
+                <el-button type="text" icon="el-icon-plus" @click="handlerEidt(null)"></el-button>
+              </el-tooltip>
+              <el-tooltip placement="top" effect="light" content="刷新">
+                <el-button type="text" icon="el-icon-refresh" style="margin-right: 10px" @click="search"></el-button>
+              </el-tooltip>
+              <el-popover
+                :width="60"
+                placement="bottom"
+                title="展示字段"
+                trigger="click">
+                <div>
+                  <el-checkbox :indeterminate="indeterminate" v-model="columnShow.all"  @change="handleCheckAllChange">全选</el-checkbox><br>
+                  <el-checkbox label="序号" v-model="columnShow.index"></el-checkbox><br>
+                  <el-checkbox label="主键" v-model="columnShow.id"></el-checkbox><br>
+                  <el-checkbox label="Key" v-model="columnShow.key"></el-checkbox><br>
+                  <el-checkbox label="Value" v-model="columnShow.value"></el-checkbox><br>
+                  <el-checkbox label="状态" v-model="columnShow.state"></el-checkbox>
+                </div>
+                <el-button type="text" icon="el-icon-s-operation" slot="reference"></el-button>
+              </el-popover>
+            </template>
+            <template slot-scope="scope">
+              <el-button type="primary" icon="el-icon-edit" plain size="mini" @click="handlerEidt(scope.row)">编辑</el-button>
+              <el-button type="danger" icon="el-icon-delete" plain size="mini" @click="handlerDel(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <br>
+        <el-pagination
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-sizes="[5,10,15,20,25,30,50]"
+          layout="total, sizes, prev, pager, next, jumper"
+          :current-page="page.pageNum"
+          :page-size="page.pageSize"
+          :total="page.total">
+        </el-pagination>
+      </el-card>
+    </el-row>
+
+    <el-dialog :title="editReq.title" :visible.sync="dialogQuantaVisible">
+      <el-form label-position="left" label-suffix=":" label-width="80px" size="mini">
+        <el-form-item label="Key">
+          <el-input placeholder="Key" clearable maxlength="20" show-word-limit :disabled="editReq.id > 0" v-model="editReq.key"></el-input>
+        </el-form-item>
+        <el-form-item label="Value">
+          <el-input placeholder="Value" clearable maxlength="20" show-word-limit v-model="editReq.value"></el-input>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-select v-model="editReq.state" placeholder="请选择">
+            <el-option
+              v-for="item in dict.quanta.state"
+              :key="item.key"
+              :label="item.value"
+              :value="item.key">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <br>
+        <el-form-item>
+          <el-button type="primary" plain @click="edit">确定</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 
-import { isEmpty } from '@/utils'
-
-const columns = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    key: 'id',
-    scopedSlots: { customRender: 'id' }
-  },
-  {
-    title: 'Key',
-    dataIndex: 'key',
-    key: 'key',
-    scopedSlots: { customRender: 'key' }
-  },
-  {
-    title: 'Value',
-    dataIndex: 'value',
-    key: 'value',
-    scopedSlots: { customRender: 'value' }
-  },
-  {
-    title: '状态',
-    dataIndex: 'state',
-    key: 'state',
-    scopedSlots: { customRender: 'state' }
-  },
-  {
-    title: '操作',
-    key: 'action',
-    scopedSlots: { customRender: 'action' }
-  }
-]
+import { mapState } from 'vuex'
 
 export default {
   name: 'index',
+  watch: {
+    columnShow: {
+      deep: true,
+      immediate: true,
+      handler () {
+        this.handlerCheckChange()
+      }
+    }
+  },
   data () {
     return {
-      columns,
       loading: false,
-      visible: false,
-      items: [],
-      req: {
-        onChange: this.handlerPageChange,
-        onShowSizeChange: this.handlerPageSizeChange,
-        showSizeChanger: true,
-        pageSizeOptions: ['5', '10', '20', '30', '40', '50'],
-        current: 1,
+      searchShow: true,
+      indeterminate: false,
+      dialogQuantaVisible: false,
+      columnShow: {
+        all: true,
+        index: true,
+        id: true,
+        key: true,
+        value: true,
+        state: true
+      },
+      page: {
         pageNum: 1,
         pageSize: 5,
-        total: 0,
-        key: ''
+        total: 0
+      },
+      req: {
+        key: '',
+        state: null
       },
       editReq: {
+        title: '新增配置',
         id: 0,
         key: '',
-        value: ''
-      }
+        value: '',
+        state: 1
+      },
+      items: []
     }
   },
   methods: {
@@ -115,90 +168,119 @@ export default {
     },
     async search () {
       this.loading = true
-      const result = await this.$request.fetchQuantas(this.req)
+      const req = { ...this.req, ...this.page }
+      const result = await this.$request.fetchQuantas(req)
       if (result.code) {
         this.items = []
-        this.req.current = 1
-        this.req.pageNum = 1
-        this.req.total = 0
+        this.$message.warning(result.message)
         this.loading = false
         return
       }
       this.items = result.data.list
-      this.req = Object.assign(this.req, result.data.page)
-      this.req.current = this.req.pageNum
+      Object.assign(this.page, result.data.page)
       this.loading = false
     },
-    handlerPageChange (page, pageSize) {
-      this.req.pageNum = parseInt(page)
-      this.req.current = parseInt(page)
-      this.req.pageSize = parseInt(pageSize)
-      this.search()
+    reset () {
+      this.$refs.form.resetFields()
     },
-    handlerPageSizeChange (current, size) {
-      this.req.pageNum = parseInt(current)
-      this.req.current = parseInt(current)
-      this.req.pageSize = parseInt(size)
-      this.search()
-    },
-    handlerEdit (record) {
-      this.editReq = {
-        title: '编辑配置',
-        id: record.id,
-        key: record.key,
-        value: record.value
-      }
-      this.visible = true
-    },
-    handlerAdd () {
-      this.editReq = {
-        title: '添加配置',
-        id: 0,
-        key: '',
-        value: ''
-      }
-      this.visible = true
-    },
-    handlerCancel () {
-      this.editReq = {
-        id: 0,
-        key: '',
-        value: ''
-      }
-    },
-    async handleOk () {
-      if (isEmpty(this.editReq.key) || isEmpty(this.editReq.value)) {
-        this.$message.warning('内容不能为空！')
+    async edit () {
+      if (this.isEmpty(this.editReq.key, 'Key不能为空！')) {
         return
       }
-      this.loading = true
+      if (this.isEmpty(this.editReq.value, 'Value不能为空！')) {
+        return
+      }
       let result = null
-      if (this.editReq.id > 0) {
+      if (this.editReq.id) {
         result = await this.$request.fetchUpdQuanta(this.editReq)
       } else {
         result = await this.$request.fetchAddQuanta(this.editReq)
       }
       if (result.code) {
         this.$message.warning(result.message)
-        this.loading = false
         return
       }
-      this.search()
       this.$message.success(result.message)
-      this.loading = false
+      this.search()
     },
-    async del (record) {
-      this.loading = true
-      const result = await this.$request.fetchDelQuanta(record)
+    async del (data) {
+      const result = await this.$request.fetchDelQuanta(data)
       if (result.code) {
         this.$message.warning(result.message)
-        this.loading = false
         return
       }
-      this.search()
       this.$message.success(result.message)
-      this.loading = false
+      this.search()
+    },
+    // ------------ handler -----------------
+    handleSizeChange (pageSize) {
+      this.page.pageSize = pageSize
+      this.page.pageNum = 1
+      this.search()
+    },
+    handleCurrentChange (pageNum) {
+      this.page.pageNum = pageNum
+      this.search()
+    },
+    handleCheckAllChange (checked) {
+      for (const key in this.columnShow) {
+        this.columnShow[key] = checked
+      }
+      this.handlerCheckChange()
+    },
+    handlerCheckChange () {
+      let b = true
+      for (const key in this.columnShow) {
+        if (key === 'all') {
+          continue
+        }
+        if (!this.columnShow[key]) {
+          b = false
+        }
+      }
+      if (b) {
+        this.columnShow.all = true
+        this.indeterminate = false
+        return
+      }
+      this.columnShow.all = false
+      this.indeterminate = true
+    },
+    handlerSearchShow () {
+      this.searchShow = !this.searchShow
+    },
+    handlerEidt (row) {
+      this.editReq = {
+        title: '新增配置',
+        id: 0,
+        key: '',
+        value: '',
+        state: 1
+      }
+      if (row) {
+        this.editReq = {
+          title: '编辑配置',
+          id: row.id,
+          key: row.key,
+          value: row.value,
+          state: row.state
+        }
+      }
+      this.dialogQuantaVisible = true
+    },
+    handlerDel (row) {
+      const that = this
+      this.$confirm('此操作将永久删除该记录？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '再想想~',
+        type: 'warning'
+      }).then(() => {
+        that.del()
+      })
     }
+  },
+  computed: {
+    ...mapState(['dict'])
   }
 }
 </script>

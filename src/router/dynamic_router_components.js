@@ -11,7 +11,9 @@ const dynamicRouterComponents = {
   'article-edit': () => import('@/views/article/edit/index.vue'),
   category: () => import('@/views/article/category/index.vue'),
   comment: () => import('@/views/comment/index.vue'),
-  demo: () => import('@/views/demo/index.vue')
+  demo: () => import('@/views/demo/index.vue'),
+  task: () => import('@/views/other/task/index.vue'),
+  card: () => import('@/views/other/card/index.vue')
 }
 
 export default dynamicRouterComponents

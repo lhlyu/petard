@@ -13,7 +13,7 @@ export default ({ mock }) => {
     for (let i = 0; i < pageSize; i++) {
       const item = {
         id: Mock.Random.natural(1000, 20000),
-        name: Mock.Random.name(),
+        name: Mock.Random.cname(2, 4),
         color: Mock.Random.color(),
         count: Mock.Random.integer(0, 10),
         state: Mock.Random.natural(1, 2),

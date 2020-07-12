@@ -10,7 +10,6 @@
           <label for="u-checkbox"></label>
         </div>
         <div class="right">
-          <a-icon type="github" :style="{fontSize: '15px',cursor: 'pointer'}" />
         </div>
       </div>
     </div>

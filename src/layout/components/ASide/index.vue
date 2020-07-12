@@ -8,38 +8,34 @@
         </router-link>
       </div>
       <div class="u-menu-lock">
-        <a-tooltip placement="bottom">
-          <template slot="title">
-            <span>{{getOptions.lockMenu ? '解锁菜单' : '锁定菜单'}}</span>
-          </template>
+        <el-tooltip class="item" effect="light" placement="bottom">
+          <span slot="content">{{getOptions.lockMenu ? '解锁菜单' : '锁定菜单'}}</span>
           <i class="u-transition" :class="`${getOptions.lockMenu ? 'fa fa-unlock' : 'fa fa-lock'}`" @click="triggerLock"></i>
-        </a-tooltip>
+        </el-tooltip>
       </div>
       <div class="u-user-logout">
-        <a-tooltip placement="bottom">
-          <template slot="title">
-            <span>注销</span>
-          </template>
+        <el-tooltip class="item" effect="light" placement="bottom">
+          <span slot="content">注销</span>
           <i class="u-transition fa fa-power-off" @click="logout"></i>
-        </a-tooltip>
+        </el-tooltip>
       </div>
     </div>
     <div class="u-menu">
-      <a-menu style="width: 274px" v-model="menuSelect" :open-keys="openSub" mode="inline" v-for="(v,i) in menus" :key="i" @select="handlerSelect" @openChange="handlerOpen">
-        <a-menu-item :key="v.name" v-if="!v.children || v.children.length === 0">
+      <el-menu style="width: 100%" v-for="(v,i) in menus" :key="i" :router="true" :default-active="activePath" :default-openeds="openSub" @open="handlerOpen" @close="handlerClose">
+        <el-menu-item :index="v.path" v-if="!v.children || v.children.length === 0">
           <i class="u-menu-icon" :class="v.icon"></i>
           {{v.title}}
-        </a-menu-item>
-        <a-sub-menu :key="v.name" v-else>
+        </el-menu-item>
+        <el-submenu :index="v.path" v-else>
           <span slot="title">
             <i class="u-menu-icon" :class="v.icon"></i><span>{{v.title}}</span>
           </span>
-          <a-menu-item :key="w.name" v-for="w in v.children">
+          <el-menu-item :index="w.path" :key="w.name" v-for="w in v.children">
             <i class="u-menu-icon" :class="w.icon"></i>
             {{w.title}}
-          </a-menu-item>
-        </a-sub-menu>
-      </a-menu>
+          </el-menu-item>
+        </el-submenu>
+      </el-menu>
     </div>
   </aside>
 </template>
@@ -58,8 +54,8 @@ export default {
   },
   data () {
     return {
-      menuSelect: [],
-      openSub: []
+      openSub: [],
+      activePath: ''
     }
   },
   methods: {
@@ -69,12 +65,17 @@ export default {
       this.activeMenu(this.$route)
     },
     activeMenu (route) {
+      if (!route) {
+        return
+      }
+      this.activePath = route.path
+      const that = this
       Object.values(menus).forEach(v => {
         if (v.path === route.path) {
-          this.menuSelect = [v.name]
-          if (v.upper !== 'admin') {
-            this.openSub.push(v.upper)
+          if (v.upper === 'admin') {
+            return
           }
+          that.openSub.push(menus[v.upper].path)
         }
       })
     },
@@ -88,16 +89,18 @@ export default {
       this.LOGOUT()
       this.$router.push('/')
     },
-    handlerSelect (item, key, selectedKeys) {
-      Object.values(menus).forEach(v => {
-        if (v.name === item.key) {
-          this.$router.push(v.path)
-        }
-      })
+    handlerOpen (index) {
+      if (this.openSub.indexOf(index) > -1) {
+        return
+      }
+      this.openSub.push(index)
     },
-    handlerOpen (openKeys) {
-      console.log(openKeys)
-      this.openSub = [...openKeys]
+    handlerClose (index) {
+      const i = this.openSub.indexOf(index)
+      if (i === -1) {
+        return
+      }
+      this.openSub.splice(i, 1)
     }
   },
   computed: {

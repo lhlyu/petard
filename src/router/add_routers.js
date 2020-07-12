@@ -28,7 +28,7 @@ const getTree = (upper, arr) => {
   for (let i = 0, length = nodes.length; i < length; i++) {
     const items = getTree(nodes[i].name, arr)
     if (items.length === 0) {
-      nodes[i].component = dynamicRouterComponents[nodes[i].name]
+      nodes[i].component = dynamicRouterComponents[nodes[i].name] || dynamicRouterComponents.demo
     } else {
       nodes[i].component = Blank
       nodes[i].redirect = items[0].path
@@ -38,6 +38,8 @@ const getTree = (upper, arr) => {
   return nodes
 }
 
+// 根据codes过滤菜单, 再生成树结构
+// 如果codes=[9999]，将不过滤
 const getMenus = codes => {
   if (!codes || codes.length === 0) {
     return null

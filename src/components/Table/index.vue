@@ -1,49 +1,52 @@
 <template>
-  <div>
-    <a-spin :spinning="loading" v-if="columns">
-      <a-row :gutter="[15,15]">
-        <a-col :span="24">
-          <slot name="header"></slot>
-        </a-col>
-      </a-row>
-      <a-card>
-        <a-row :gutter="[15,5]">
-          <a-col :span="24">
-            <a-popconfirm placement="bottom" ok-text="Yes" cancel-text="No" @confirm="confirm">
-              <template slot="title">
-                <div>
-                  <div :style="{ borderBottom: '1px solid #E9E9E9' }">
-                    <a-checkbox :indeterminate="indeterminate" :checked="checkAll" @change="onCheckAllChange">
-                      Check all
-                    </a-checkbox>
-                  </div>
-                  <br />
-                  <a-checkbox-group v-model="checkedList" :options="plainOptions" @change="onChange" />
-                </div>
-              </template>
-              <a-button size="large" type="link">
-                <a-icon type="control" />
-              </a-button>
-            </a-popconfirm>
-
-          </a-col>
-          <a-col :span="24">
-            <a-table :pagination="req" :columns="columns" :data-source="datas">
-              <template v-for="c in columns" :slot="c.key" slot-scope="text,record">
-                <slot :name="c.key" :row="record">
-                  {{text}}
-                </slot>
-              </template>
-            </a-table>
-          </a-col>
-        </a-row>
-      </a-card>
-      <a-row :gutter="[15,15]">
-        <a-col :span="24">
-          <slot name="footer"></slot>
-        </a-col>
-      </a-row>
-    </a-spin>
+  <div v-loading="loading">
+    <el-row>
+      <el-card shadow="never">
+        <el-table resizable v-if="columns && columns.length" :data="datas" style="width: 100%">
+          <el-table-column
+            v-for="(c,i) in columns" :key="i"
+            :type="c.type"
+            :align="c.align ? c.align : 'left'"
+            :prop="c.key"
+            :label="c.label"
+            :width="c.width">
+            <template slot-scope="scope" v-if="c.key">
+              <slot :name="c.key" :row="scope.row" v-if="c.key">
+                {{c.key && scope.row[c.key]}}
+              </slot>
+            </template>
+          </el-table-column>
+          <el-table-column align="right">
+            <template slot="header" slot-scope="scope">
+              <el-button type="text" icon="el-icon-refresh" trigger="click" @click="handlerRefresh" style="margin-right: 10px"></el-button>
+              <el-popover
+                placement="top-start"
+                title="展示字段"
+                width="200"
+                trigger="hover"
+                content="这是一段内容,这是一段内容,这是一段内容,这是一段内容。">
+                <el-button type="text" icon="el-icon-s-operation" slot="reference"></el-button>
+              </el-popover>
+            </template>
+            <template slot-scope="scope">
+              <slot name="action" :row="scope.row">
+              </slot>
+            </template>
+          </el-table-column>
+        </el-table>
+        <br>
+        <el-pagination
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-sizes="[5,10,15,20,25,30,50]"
+          layout="total, sizes, prev, pager, next, jumper"
+          :current-page="page.pageNum"
+          :page-size="page.pageSize"
+          :total="page.total">
+        </el-pagination>
+      </el-card>
+    </el-row>
   </div>
 </template>
 
@@ -62,36 +65,41 @@ export default {
       default: () => {
         return []
       }
+    },
+    page: {
+      type: Object,
+      default: () => {
+        return {
+          pageNum: 1,
+          pageSize: 5,
+          total: 0
+        }
+      }
     }
   },
   data () {
     return {
-      loading: false,
-      req: {
-        onChange: this.handlerPageChange,
-        onShowSizeChange: this.handlerPageSizeChange,
-        showSizeChanger: true,
-        pageSizeOptions: ['5', '10', '20', '30', '40', '50'],
-        current: 1,
-        pageNum: 1,
-        pageSize: 5,
-        total: 0,
-        key: ''
-      }
+      loading: false
     }
   },
   methods: {
-    handlerPageChange (page, pageSize) {
-      this.req.pageNum = parseInt(page)
-      this.req.current = parseInt(page)
-      this.req.pageSize = parseInt(pageSize)
-      this.search()
+    handleSizeChange (pageNum) {
+      this.$emit('changePage', {
+        pageNum: pageNum,
+        pageSize: this.page.pageSize
+      })
     },
-    handlerPageSizeChange (current, size) {
-      this.req.pageNum = parseInt(current)
-      this.req.current = parseInt(current)
-      this.req.pageSize = parseInt(size)
-      this.search()
+    handleCurrentChange (pageNum) {
+      this.$emit('changePage', {
+        pageNum: pageNum,
+        pageSize: this.page.pageSize
+      })
+    },
+    handlerRefresh () {
+      this.$emit('refresh', {
+        pageNum: this.page.pageNum,
+        pageSize: this.page.pageSize
+      })
     }
   }
 }

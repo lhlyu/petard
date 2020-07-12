@@ -1,106 +1,151 @@
 <template>
-  <div class="u-profile">
-    <a-spin :spinning="loading" v-if="item">
-      <a-card  title="个人信息">
-        <a-descriptions bordered :column="1">
-          <a-descriptions-item label="头像">
-            <img :src="item.avatar" width="150" class="u-cursor" @click="avatarVisible = true">
-          </a-descriptions-item>
-          <a-descriptions-item label="账号 / ID">
-            {{item.account}} / {{item.id}}
-          </a-descriptions-item>
-          <a-descriptions-item label="昵称">
-            <span class="u-cursor" @click="nickNameVisible = true">{{item.nickName}} <a-icon type="edit" /></span>
-          </a-descriptions-item>
-          <a-descriptions-item label="来源">
-            {{item.source}}
-          </a-descriptions-item>
-          <a-descriptions-item label="上次登陆">
-            <Time :time="item.lastAt"></Time>
-          </a-descriptions-item>
-          <a-descriptions-item label="创建时间">
-            <Time :time="item.createdAt"></Time>
-          </a-descriptions-item>
-          <a-descriptions-item label="个人地址">
-            <a :href="item.url" target="_blank">地址</a>
-          </a-descriptions-item>
-          <a-descriptions-item label="安全 / 密码">
-            <a href="#" @click="securityVisible = true">修改 <a-icon type="edit" /></a>
-          </a-descriptions-item>
-          <a-descriptions-item label="个性签名">
-            <span class="u-cursor" @click="bioVisible = true">{{item.bio}} <a-icon type="edit" /></span>
-          </a-descriptions-item>
-        </a-descriptions>
-      </a-card>
-    </a-spin>
-    <a-modal v-model="securityVisible" :destroyOnClose="true" title="修改密码" @ok="handleOk(1)" @cancel="handlerCancel">
-      <a-form layout="horizontal" labelAlign="left" :labelCol="{ span: 4 }" :wrapperCol="{ span: 20 }">
-        <a-form-item label="原始密码">
-          <a-input type="password" placeholder="原始密码" allowClear v-model="req.oldPwd" />
-        </a-form-item>
-        <a-form-item label="新的密码">
-          <a-input type="password" placeholder="新的密码" allowClear v-model="req.newPwd" />
-        </a-form-item>
-        <a-form-item label="确认密码">
-          <a-input type="password" placeholder="确认密码" allowClear v-model="req.rePwd" />
-        </a-form-item>
-      </a-form>
-    </a-modal>
-    <a-modal v-model="bioVisible" :destroyOnClose="true" title="个性签名" @ok="handleOk(2)" @cancel="handlerCancel">
-      <a-form layout="horizontal" labelAlign="left" :labelCol="{ span: 4 }" :wrapperCol="{ span: 20 }">
-        <a-form-item label="Bio">
-          <a-input placeholder="bio" allowClear v-model="req.bio" />
-        </a-form-item>
-      </a-form>
-    </a-modal>
-    <a-modal v-model="nickNameVisible" :destroyOnClose="true" title="昵称" @ok="handleOk(3)" @cancel="handlerCancel">
-      <a-form layout="horizontal" labelAlign="left" :labelCol="{ span: 4 }" :wrapperCol="{ span: 20 }">
-        <a-form-item label="昵称">
-          <a-input placeholder="昵称" allowClear v-model="req.nickName" />
-        </a-form-item>
-      </a-form>
-    </a-modal>
-    <a-modal :width="800" v-model="avatarVisible" :destroyOnClose="true" title="头像" @ok="handleOk(4)" @cancel="handlerCancel">
-      <Uploadx @success="handlerAvatarUpload"></Uploadx>
-    </a-modal>
+  <div v-loading="loading">
+    <el-row>
+      <el-card shadow="never">
+        <el-tabs tab-position="left" style="min-height: 400px;">
+          <el-tab-pane label="基本信息">
+            <el-card shadow="never">
+              <el-form label-position="right" v-if="item">
+                <el-form-item>
+                  <el-input placeholder="主键" disabled v-model="item.id">
+                    <template slot="prepend">主键</template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input placeholder="账号" disabled v-model="item.account">
+                    <template slot="prepend">账号</template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input placeholder="昵称" clearable v-model="item.nickName">
+                    <template slot="prepend">昵称</template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input placeholder="签名" clearable v-model="item.bio">
+                    <template slot="prepend">签名</template>
+                  </el-input>
+                </el-form-item>
+                <el-divider content-position="left">链接</el-divider>
+                <el-form-item>
+                  <el-input placeholder="网站" clearable v-model="item.url">
+                    <template slot="prepend"><span class="fa fa-link"></span></template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input placeholder="Github" clearable>
+                    <template slot="prepend"><span class="fa fa-github"></span></template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input placeholder="QQ" clearable>
+                    <template slot="prepend"><span class="fa fa-qq"></span></template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input placeholder="Wechat" clearable>
+                    <template slot="prepend"><span class="fa fa-weixin"></span></template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input placeholder="Codepen" clearable>
+                    <template slot="prepend"><span class="fa fa-codepen"></span></template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input placeholder="邮箱" clearable>
+                    <template slot="prepend"><span class="fa fa-envelope-o"></span></template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input placeholder="手机" clearable>
+                    <template slot="prepend"><span class="fa fa-phone"></span></template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input placeholder="打赏码" clearable>
+                    <template slot="prepend"><span class="fa fa-qrcode"></span></template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button size="mini" plain @click="save">保存</el-button>
+                </el-form-item>
+              </el-form>
+            </el-card>
+          </el-tab-pane>
+          <el-tab-pane label="头像信息">
+            <el-card shadow="never">
+              <el-avatar shape="square" :size="100" fit="cover" :src="item.avatar" class="u-margin-right"></el-avatar>
+              <el-avatar shape="square" :size="60" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
+              <el-avatar shape="square" :size="40" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
+              <el-avatar shape="circle" :size="100" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
+              <el-avatar shape="circle" :size="60" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
+              <el-avatar shape="circle" :size="40" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
+              <br>
+              <br>
+              <el-button size="mini" type="primary" plain @click="dialogAvatarVisible = true">修改</el-button>
+              <el-button size="mini" plain @click="save">保存</el-button>
+            </el-card>
+          </el-tab-pane>
+          <el-tab-pane label="安全信息">
+            <el-card shadow="never">
+              <el-form label-position="right" v-if="item">
+                <el-form-item>
+                  <el-input type="password" placeholder="原始密码" clearable show-password v-model="req.oldPwd">
+                    <template slot="prepend">原始密码</template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input type="password" placeholder="新的密码" clearable show-password v-model="req.newPwd">
+                    <template slot="prepend">新的密码</template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input type="password" placeholder="确认密码" clearable show-password v-model="req.rePwd">
+                    <template slot="prepend">确认密码</template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-input type="password" placeholder="加密盐值(选填)" clearable show-password v-model="req.salt">
+                    <template slot="prepend">加密盐值</template>
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button size="mini" plain @click="upd">修改</el-button>
+                </el-form-item>
+              </el-form>
+            </el-card>
+          </el-tab-pane>
+        </el-tabs>
+      </el-card>
+    </el-row>
+    <el-dialog title="修改头像" :visible.sync="dialogAvatarVisible">
+      <Upload @success="handlerUpload"></Upload>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 
-import 'babel-polyfill'
-import Time from '@/components/Time'
-import Uploadx from '@/components/Upload'
-
+import Upload from '@/components/Upload'
 import { mapState } from 'vuex'
-
-import { isEmpty } from '@/utils'
 
 export default {
   name: 'index',
   components: {
-    Time,
-    Uploadx
+    Upload
   },
   data () {
     return {
       loading: false,
-      securityVisible: false,
-      bioVisible: false,
-      nickNameVisible: false,
-      avatarVisible: false,
-      url: '/api/upload',
-      headers: {
-        token: this.token
-      },
+      dialogAvatarVisible: false,
       item: null,
       req: {
+        id: 0,
         oldPwd: '',
         newPwd: '',
         rePwd: '',
-        bio: '',
-        nickName: '',
-        avatar: ''
+        salt: ''
       }
     }
   },
@@ -110,87 +155,62 @@ export default {
     },
     async search () {
       this.loading = true
-      const result = await this.$request.fetchProfile(this.profile)
+      const result = await this.$request.fetchProfile()
       if (result.code) {
         this.item = null
-        this.loading = false
-        return
-      }
-      this.item = result.data
-      this.loading = false
-    },
-    check (flag) {
-      switch (flag) {
-        case 1:
-          if (isEmpty(this.req.oldPwd) || isEmpty(this.req.newPwd) || isEmpty(this.req.rePwd)) {
-            this.$message.warning('输入框不能为空！')
-            return false
-          }
-          if (this.req.newPwd !== this.req.rePwd) {
-            this.$message.warning('两次输入不一致！')
-            return false
-          }
-          break
-        case 2:
-          if (isEmpty(this.req.bio)) {
-            this.$message.warning('内容不能为空！')
-            return false
-          }
-          break
-        case 3:
-          if (isEmpty(this.req.nickName)) {
-            this.$message.warning('内容不能为空！')
-            return false
-          }
-          break
-        case 4:
-          if (isEmpty(this.req.avatar)) {
-            this.$message.warning('头像不能为空！')
-            return false
-          }
-      }
-      return true
-    },
-    handlerAvatarUpload (data) {
-      if (!data) {
-        return
-      }
-      this.req.avatar = data.url
-    },
-    handlerCancel () {
-      this.req = {
-        oldPwd: '',
-        newPwd: '',
-        rePwd: '',
-        bio: '',
-        nickName: '',
-        avatar: ''
-      }
-      this.loading = false
-    },
-    async handleOk (flag) {
-      this.loading = true
-      if (!this.check(flag)) {
-        this.loading = false
-        return
-      }
-      this.req.flag = flag
-      const result = await this.$request.fetchUpdProfile(this.req)
-      if (result.code) {
         this.$message.warning(result.message)
         this.loading = false
         return
       }
-      this.search()
-      this.$message.success(result.message)
+      this.item = result.data
+      this.req.id = this.item.id
       this.loading = false
+    },
+    async save () {
+      if (!this.item) {
+        return
+      }
+      const result = await this.$request.fetchUpdProfile(this.item)
+      if (result.code) {
+        this.$message.warning(result.message)
+        return
+      }
+      this.$message.success(result.message)
+    },
+    async upd () {
+      if (!this.req.id) {
+        return
+      }
+      if (this.isEmpty(this.req.oldPwd, '原始密码不能为空！')) {
+        return
+      }
+      if (this.isEmpty(this.req.newPwd, '新的密码不能为空！')) {
+        return
+      }
+      if (this.isEmpty(this.req.rePwd, '确认密码不能为空！')) {
+        return
+      }
+      if (this.req.newPwd !== this.req.rePwd) {
+        this.$message.warning('两次密码不一样！')
+        return
+      }
+      const result = await this.$request.fetchUpdSecurity(this.req)
+      if (result.code) {
+        this.$message.warning(result.message)
+        return
+      }
+      this.$message.success(result.message)
+    },
+    // ------------ handler -----------------
+    handlerUpload (data) {
+      if (!data) {
+        return
+      }
+      this.item.avatar = data.url
     }
   },
-  events: {
-
-  },
   computed: {
-    ...mapState(['token', 'profile'])
+    ...mapState(['dict'])
   }
 }
 </script>

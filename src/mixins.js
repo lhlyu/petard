@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import isMobile from 'ismobilejs'
+import { Message } from 'element-ui'
 import request from '@/api/apis.js'
 
 Vue.prototype.$isMobile = isMobile().phone
@@ -21,8 +22,11 @@ Vue.mixin({
   methods: {
     initData () {},
     init () {},
-    isEmpty (v) {
+    isEmpty (v, msg) {
       if (!v || v.length === 0) {
+        if (msg) {
+          Message.warning(msg)
+        }
         return true
       }
       return false

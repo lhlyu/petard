@@ -13,53 +13,53 @@ export default ({ mock }) => {
       data: {
         user: {
           identity: [
-            { key: 1, value: '普通', color: '#45aaf2' },
-            { key: 2, value: '好友', color: '#3ae374' },
-            { key: 3, value: '管理', color: '#a55eea' }
+            { key: 1, value: '普通', color: 'primary' },
+            { key: 2, value: '好友', color: 'success' },
+            { key: 3, value: '管理', color: 'danger' }
           ],
           state: [
-            { key: 1, value: '正常', color: '#3ae374' },
-            { key: 2, value: '黑名', color: '#4b4b4b' }
+            { key: 1, value: '正常', color: 'success' },
+            { key: 2, value: '黑名', color: 'info' }
           ]
         },
         article: {
           kind: [
-            { key: 1, value: '普通', color: '#0abde3' },
-            { key: 2, value: '灵感', color: '#0abde3' },
-            { key: 3, value: '关于', color: '#0abde3' }
+            { key: 1, value: '普通', color: 'primary' },
+            { key: 2, value: '灵感', color: 'primary' },
+            { key: 3, value: '关于', color: 'primary' }
           ],
           storeMode: [
-            { key: 1, value: '文件模式', color: '#FD7272' },
-            { key: 2, value: 'text模式', color: '#FD7272' }
+            { key: 1, value: '文件模式', color: 'primary' },
+            { key: 2, value: 'text模式', color: 'primary' }
           ],
           state: [
-            { key: 1, value: '草稿', color: '#d1d8e0' },
-            { key: 2, value: '待审', color: '#ff9f1a' },
-            { key: 3, value: '发布', color: '#3ae374' },
-            { key: 4, value: '废弃', color: '#4b4b4b' }
+            { key: 1, value: '草稿', color: 'primary' },
+            { key: 2, value: '待审', color: 'warning' },
+            { key: 3, value: '发布', color: 'success' },
+            { key: 4, value: '废弃', color: 'info' }
           ],
           commentState: [
-            { key: 1, value: '开放', color: '#3ae374' },
-            { key: 2, value: '关闭', color: '#4b4b4b' }
+            { key: 1, value: '开放', color: 'success' },
+            { key: 2, value: '关闭', color: 'info' }
           ]
         },
         comment: {
           state: [
-            { key: 1, value: '待审', color: '#ff9f1a' },
-            { key: 2, value: '正常', color: '#3ae374' },
-            { key: 3, value: '禁用', color: '#4b4b4b' }
+            { key: 1, value: '待审', color: 'warning' },
+            { key: 2, value: '正常', color: 'success' },
+            { key: 3, value: '禁用', color: 'info' }
           ]
         },
         category: {
           state: [
-            { key: 1, value: '正常', color: '#3ae374' },
-            { key: 2, value: '禁用', color: '#4b4b4b' }
+            { key: 1, value: '正常', color: 'success' },
+            { key: 2, value: '禁用', color: 'info' }
           ]
         },
         quanta: {
           state: [
-            { key: 1, value: '正常', color: '#3ae374' },
-            { key: 2, value: '禁用', color: '#4b4b4b' }
+            { key: 1, value: '正常', color: 'success' },
+            { key: 2, value: '禁用', color: 'info' }
           ]
         }
       }
@@ -68,19 +68,20 @@ export default ({ mock }) => {
 
   // 最近十天访问量数据
   M(api.ApiViewStat, options => {
-    const items = []
+    const days = []
+    const counts = []
     const today = new Date().getTime()
-    for (let i = 0; i < 10; i++) {
-      const item = {
-        day: new Date(today - i * 3600 * 24 * 1000).getDate(),
-        count: Mock.Random.natural(10, 500)
-      }
-      items.push(item)
+    for (let i = 9; i >= 0; i--) {
+      days.push(new Date(today - i * 3600 * 24 * 1000).getDate())
+      counts.push(Mock.Random.natural(10, 500))
     }
     return {
       code: 0,
       message: 'success',
-      data: items
+      data: {
+        days,
+        counts
+      }
     }
   })
 
@@ -90,11 +91,10 @@ export default ({ mock }) => {
       code: 0,
       message: 'success',
       data: {
-        userCount: Mock.Random.natural(20, 3000),
+        userCount: Mock.Random.natural(20, 300),
         friendCount: Mock.Random.natural(10, 100),
         articleCount: Mock.Random.natural(10, 200),
         categoryCount: Mock.Random.natural(5, 30),
-        viewCount: Mock.Random.natural(5000, 100000),
         commentCount: Mock.Random.natural(100, 300)
       }
     }

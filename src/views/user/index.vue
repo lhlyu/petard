@@ -1,147 +1,277 @@
 <template>
-  <div>
-    <a-spin :spinning="loading">
-      <a-row :gutter="[0,15]">
-        <a-col :span="24">
-          <a-card>
-            <a-form layout="inline">
-              <a-form-item label="用户昵称">
-                <a-input allowClear :maxLength="16" v-model="req.name"></a-input>
-              </a-form-item>
-              <a-form-item label="用户ID">
-                <a-input-number allowClear :maxLength="11" :min="0" v-model="req.userId"></a-input-number>
-              </a-form-item>
-              <a-form-item label="状态">
-                <a-select style="width: 120px" v-model="req.state" allowClear>
-                  <a-select-option :value="i" v-for="(v, i) in states" :key="i">
-                    {{v}}
-                  </a-select-option>
-                </a-select>
-              </a-form-item>
-              <a-form-item label="身份">
-                <a-select style="width: 120px" v-model="req.identity" allowClear>
-                  <a-select-option :value="i" v-for="(v, i) in identitys" :key="i">
-                    {{v}}
-                  </a-select-option>
-                </a-select>
-              </a-form-item>
-              <a-form-item label="时间范围">
-                <a-range-picker @change="handlerPickDatetime" allowClear />
-              </a-form-item>
-              <a-form-item>
-                <a-button icon="search" @click="search">搜索</a-button>
-              </a-form-item>
-            </a-form>
-          </a-card>
-        </a-col>
+  <div v-loading="loading">
+    <el-row>
+      <el-collapse-transition>
+        <el-card shadow="never" v-show="searchShow">
+          <el-form inline :model="req" ref="form" label-position="left" label-suffix=":" size="mini">
+            <el-form-item label="主键" prop="id">
+              <el-input-number placeholder="主键" clearable controls-position="right" :min="0" :step-strictly="true" v-model="req.id"></el-input-number>
+            </el-form-item>
+            <el-form-item label="账号" prop="account">
+              <el-input placeholder="账号" clearable maxlength="25" show-word-limit v-model="req.account"></el-input>
+            </el-form-item>
+            <el-form-item label="昵称" prop="nickName">
+              <el-input placeholder="昵称" clearable maxlength="50" show-word-limit v-model="req.nickName"></el-input>
+            </el-form-item>
+            <el-form-item label="身份" prop="identity">
+              <el-select v-model="req.identity" clearable placeholder="请选择">
+                <el-option
+                  v-for="item in dict.user.identity"
+                  :key="item.key"
+                  :label="item.value"
+                  :value="item.key">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="状态" prop="state">
+              <el-select v-model="req.state" clearable placeholder="请选择">
+                <el-option
+                  v-for="item in dict.user.state"
+                  :key="item.key"
+                  :label="item.value"
+                  :value="item.key">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="时间范围" prop="range">
+              <el-date-picker
+                v-model="req.range"
+                type="daterange"
+                align="right"
+                unlink-panels
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions"
+                @change="handlerDaterange"
+              >
+              </el-date-picker>
+            </el-form-item>
+            <br>
+            <el-form-item>
+              <el-button type="primary" plain @click="search">搜索</el-button>
+              <el-button plain @click="reset">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-collapse-transition>
+    </el-row>
 
-        <a-col :span="24">
-          <a-card>
-            <a-list :pagination="req" item-layout="vertical" :data-source="items">
-              <a-list-item slot="renderItem" :key="item.id" slot-scope="item">
-                <span slot="extra">
-                  <a-icon type="clock-circle" /> <Time :time="item.createdAt"></Time>
-                  <br>
-                  <br>
-                  <a-radio-group v-model="item.state" size="small" @change="handlerStateChange(item)">
-                    <a-radio :value="1">
-                      {{states[1]}}
-                    </a-radio>
-                    <a-radio :value="2">
-                      {{states[2]}}
-                    </a-radio>
-                  </a-radio-group>
-                  <br>
-                  <br>
-                  <a-radio-group v-model="item.identity" size="small" @change="handlerIdentitysChange(item)">
-                    <a-radio :value="1">
-                      {{identitys[1]}}
-                    </a-radio>
-                    <a-radio :value="2">
-                      {{identitys[2]}}
-                    </a-radio>
-                    <a-radio :value="3">
-                      {{identitys[3]}}
-                    </a-radio>
-                  </a-radio-group>
-                  <br>
-                  <br>
-                  <a @click="handlerSetFriend(item)">设置个人网站</a>
-                </span>
-                <a-list-item-meta :description="item.bio">
-                  <a slot="title" :href="item.url">{{ item.nickName }}「 id:{{item.id}} 」</a>
-                  <a-avatar slot="avatar" :src="item.avatar" />
-                </a-list-item-meta>
-                <span>最近访问：<Time :time="item.lastAt"></Time></span>
-                <div slot="actions">
-                  <a-badge :color="stateColors[item.state]" :text="states[item.state]" />
+    <el-row>
+      <el-card shadow="never">
+        <el-table resizable :data="items"  :fit="false">
+          <el-table-column type="expand">
+            <template slot-scope="scope">
+              <el-form label-position="right" label-suffix=":" label-width="100px">
+                <el-form-item v-if="scope.row.avatar && scope.row.avatar">
+                  <span slot="label" class="u-item-label">头像地址:</span>
+                  <span style="margin-right: 5px">{{ scope.row.avatar }}</span>
+                  <el-link :underline="false" icon="el-icon-document-copy" v-clipboard:copy="scope.row.avatar"></el-link>
+                </el-form-item>
+                <el-form-item v-if="scope.row.bio && scope.row.bio">
+                  <span slot="label" class="u-item-label">个性签名:</span>
+                  <span style="margin-right: 5px">{{ scope.row.bio }}</span>
+                  <el-link :underline="false" icon="el-icon-document-copy" v-clipboard:copy="scope.row.bio"></el-link>
+                </el-form-item>
+                <el-form-item v-if="scope.row.url && scope.row.url.length">
+                  <span slot="label" class="u-item-label">个人网站:</span>
+                  <span style="margin-right: 5px">{{ scope.row.url }}</span>
+                  <el-link :underline="false" icon="el-icon-document-copy" v-clipboard:copy="scope.row.url"></el-link>
+                </el-form-item>
+                <el-form-item>
+                  <span slot="label" class="u-item-label">最近访问IP:</span>
+                  <span style="margin-right: 5px">{{ scope.row.ip }}</span>
+                  <el-link :underline="false" icon="el-icon-document-copy" v-clipboard:copy="scope.row.ip"></el-link>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column type="index" label="序号" v-if="columnShow.index"></el-table-column>
+          <el-table-column prop="avatar" label="头像" v-if="columnShow.avatar">
+            <template slot-scope="scope">
+              <el-avatar v-if="scope.row.avatar && scope.row.avatar.length" size="medium" :src="scope.row.avatar"></el-avatar>
+              <span v-else>暂无</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="id" label="主键" v-if="columnShow.id"></el-table-column>
+          <el-table-column prop="account" align="center" label="账号" v-if="columnShow.account"></el-table-column>
+          <el-table-column prop="nickName" align="center" label="昵称" v-if="columnShow.nickName"></el-table-column>
+          <el-table-column prop="source" align="center" label="来源" v-if="columnShow.source"></el-table-column>
+          <el-table-column prop="url" align="center" label="个人网站" v-if="columnShow.url">
+            <template slot-scope="scope">
+              <el-link v-if="scope.row.url && scope.row.url.length" icon="el-icon-s-promotion" :href="scope.row.url" target="_blank">链接</el-link>
+              <span v-else>暂无</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="identity" align="center" label="身份" v-if="columnShow.identity">
+            <template slot-scope="scope">
+              <el-tag :type="dict.user.identity.find(v => v.key == scope.row.identity).color">{{dict.user.identity.find(v => v.key == scope.row.identity).value}}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="state" align="center" label="状态" v-if="columnShow.state">
+            <template slot-scope="scope">
+              <el-tag :type="dict.user.state.find(v => v.key == scope.row.state).color">{{dict.user.state.find(v => v.key == scope.row.state).value}}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="lastAt" align="center" label="最近访问" v-if="columnShow.lastAt">
+            <template slot-scope="scope">
+              <span><Time :time="scope.row.lastAt"></Time></span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="createdAt" align="center" label="创建时间" v-if="columnShow.createdAt">
+            <template slot-scope="scope">
+              <span><Time type="date" :time="scope.row.createdAt"></Time></span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="updatedAt" align="center" label="修改时间" v-if="columnShow.updatedAt">
+            <template slot-scope="scope">
+              <span><Time type="date" :time="scope.row.updatedAt"></Time></span>
+            </template>
+          </el-table-column>
+          <el-table-column align="right">
+            <template slot="header" slot-scope="scope">
+              <el-tooltip placement="top" effect="light">
+                <div slot="content">{{searchShow ? '隐藏搜索' : '展开搜索'}}</div>
+                <el-button type="text" icon="el-icon-search" @click="handlerSearchShow"></el-button>
+              </el-tooltip>
+              <el-tooltip placement="top" effect="light" content="刷新">
+                <el-button type="text" icon="el-icon-refresh" style="margin-right: 10px" @click="search"></el-button>
+              </el-tooltip>
+              <el-popover
+                :width="60"
+                placement="bottom"
+                title="展示字段"
+                trigger="click">
+                <div>
+                  <el-checkbox :indeterminate="indeterminate" v-model="columnShow.all"  @change="handleCheckAllChange">全选</el-checkbox><br>
+                  <el-checkbox label="序号" v-model="columnShow.index"></el-checkbox><br>
+                  <el-checkbox label="头像" v-model="columnShow.avatar"></el-checkbox><br>
+                  <el-checkbox label="主键" v-model="columnShow.id"></el-checkbox><br>
+                  <el-checkbox label="账号" v-model="columnShow.account"></el-checkbox><br>
+                  <el-checkbox label="昵称" v-model="columnShow.nickName"></el-checkbox><br>
+                  <el-checkbox label="来源" v-model="columnShow.source"></el-checkbox><br>
+                  <el-checkbox label="个人网站" v-model="columnShow.url"></el-checkbox><br>
+                  <el-checkbox label="身份" v-model="columnShow.identity"></el-checkbox><br>
+                  <el-checkbox label="状态" v-model="columnShow.state"></el-checkbox><br>
+                  <el-checkbox label="最近访问" v-model="columnShow.lastAt"></el-checkbox><br>
+                  <el-checkbox label="创建时间" v-model="columnShow.createdAt"></el-checkbox><br>
+                  <el-checkbox label="更新时间" v-model="columnShow.updatedAt"></el-checkbox><br>
                 </div>
-                <div slot="actions">
-                  <a-tag :color="identitysColors[item.identity]">
-                    {{identitys[item.identity]}}
-                  </a-tag>
-                </div>
-                <div slot="actions">
-                  <a-tag color="cyan">
-                    {{item.source}}
-                  </a-tag>
-                </div>
-                <div slot="actions">
-                  <span>{{item.ip}}</span>
-                </div>
-              </a-list-item>
-            </a-list>
-          </a-card>
-        </a-col>
-      </a-row>
-    </a-spin>
+                <el-button type="text" icon="el-icon-s-operation" slot="reference"></el-button>
+              </el-popover>
+            </template>
+            <template slot-scope="scope">
+              <el-button type="primary" icon="el-icon-edit" plain size="mini" @click="handlerEidt(scope.row)">编辑</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <br>
+        <el-pagination
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-sizes="[5,10,15,20,25,30,50]"
+          layout="total, sizes, prev, pager, next, jumper"
+          :current-page="page.pageNum"
+          :page-size="page.pageSize"
+          :total="page.total">
+        </el-pagination>
+      </el-card>
+    </el-row>
 
-    <a-modal v-model="visible" :destroyOnClose="true" v-if="item" title="个人网站" @ok="handleOk" @cancel="handlerCancel">
-      <a-form layout="horizontal" labelAlign="left" :labelCol="{ span: 4 }" :wrapperCol="{ span: 20 }">
-        <a-form-item label="URL">
-          <a-input type="url" placeholder="URL" allowClear v-model="item.url" />
-        </a-form-item>
-      </a-form>
-    </a-modal>
+    <el-dialog title="编辑用户" width="350px" :visible.sync="dialogUserVisible">
+      <User :id="userId"></User>
+    </el-dialog>
+
   </div>
-
 </template>
 
 <script>
 
 import Time from '@/components/Time'
+import User from '@/components/User'
+import { mapState } from 'vuex'
 
 export default {
   name: 'index',
   components: {
-    Time
+    Time,
+    User
+  },
+  watch: {
+    columnShow: {
+      deep: true,
+      immediate: true,
+      handler () {
+        this.handlerCheckChange()
+      }
+    }
   },
   data () {
     return {
       loading: false,
-      visible: false,
-      identitys: ['所有', '普通', '好友', '管理'],
-      identitysColors: ['#eeeeee', 'blue', 'green', 'purple'],
-      states: ['所有', '正常', '禁止'],
-      stateColors: ['#eeeeee', 'green', '#000000'],
-      items: [],
-      item: null,
-      req: {
-        onChange: this.handlerPageChange,
-        onShowSizeChange: this.handlerPageSizeChange,
-        showSizeChanger: true,
-        pageSizeOptions: ['5', '10', '20', '30', '40', '50'],
-        current: 1,
+      searchShow: true,
+      indeterminate: false,
+      dialogUserVisible: false,
+      userId: null,
+      columnShow: {
+        all: false,
+        index: true,
+        avatar: true,
+        id: true,
+        account: true,
+        nickName: true,
+        source: true,
+        url: true,
+        identity: true,
+        state: true,
+        lastAt: true,
+        createdAt: true,
+        updatedAt: false
+      },
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
+      },
+      page: {
         pageNum: 1,
         pageSize: 5,
-        total: 0,
-        userId: 0,
-        start: 0,
-        end: 0,
-        state: 0,
-        identity: 0,
-        name: ''
-      }
+        total: 0
+      },
+      req: {
+        id: null,
+        account: '',
+        nickName: '',
+        identity: null,
+        state: null,
+        range: null,
+        start: null,
+        end: null
+      },
+      items: []
     }
   },
   methods: {
@@ -150,79 +280,75 @@ export default {
     },
     async search () {
       this.loading = true
-      const result = await this.$request.fetchUsers(this.req)
+      const req = { ...this.req, ...this.page }
+      const result = await this.$request.fetchUsers(req)
       if (result.code) {
         this.items = []
-        this.req.current = 1
-        this.req.pageNum = 1
-        this.req.total = 0
+        this.$message.warning(result.message)
         this.loading = false
         return
       }
       this.items = result.data.list
-      this.req = Object.assign(this.req, result.data.page)
-      this.req.current = this.req.pageNum
+      Object.assign(this.page, result.data.page)
       this.loading = false
     },
-    handlerPageChange (page, pageSize) {
-      this.req.pageNum = parseInt(page)
-      this.req.current = parseInt(page)
-      this.req.pageSize = parseInt(pageSize)
+    reset () {
+      this.$refs.form.resetFields()
+    },
+    // ------------ handler -----------------
+    handleSizeChange (pageSize) {
+      this.page.pageSize = pageSize
+      this.page.pageNum = 1
       this.search()
     },
-    handlerPageSizeChange (current, size) {
-      this.req.pageNum = parseInt(current)
-      this.req.current = parseInt(current)
-      this.req.pageSize = parseInt(size)
+    handleCurrentChange (pageNum) {
+      this.page.pageNum = pageNum
       this.search()
     },
-    async handlerStateChange (item) {
-      this.loading = true
-      const result = await this.$request.fetchUpdUser(item)
-      if (result.code) {
-        this.$message.warning(result.message)
-        this.search()
-        this.loading = false
+    handleCheckAllChange (checked) {
+      for (const key in this.columnShow) {
+        this.columnShow[key] = checked
+      }
+      this.handlerCheckChange()
+    },
+    handlerCheckChange () {
+      let b = true
+      for (const key in this.columnShow) {
+        if (key === 'all') {
+          continue
+        }
+        if (!this.columnShow[key]) {
+          b = false
+        }
+      }
+      if (b) {
+        this.columnShow.all = true
+        this.indeterminate = false
         return
       }
-      this.$message.success(result.message)
-      this.loading = false
+      this.columnShow.all = false
+      this.indeterminate = true
     },
-    async handlerIdentitysChange (item) {
-      this.loading = true
-      const result = await this.$request.fetchUpdUser(item)
-      if (result.code) {
-        this.$message.warning(result.message)
-        this.search()
-        this.loading = false
+    handlerSearchShow () {
+      this.searchShow = !this.searchShow
+    },
+    handlerEidt (row) {
+      this.userId = row.id
+      this.dialogUserVisible = true
+    },
+    handlerDaterange (range) {
+      if (!range) {
+        this.req.start = 0
+        this.req.end = 0
         return
       }
-      this.$message.success(result.message)
-      this.loading = false
-    },
-    handlerPickDatetime (value) {
-      this.req.start = +value[0]
-      this.req.end = +value[1]
-    },
-    handlerSetFriend (item) {
-      this.item = item
-      this.visible = true
-    },
-    async handleOk () {
-      this.loading = true
-      const result = await this.$request.fetchUpdUser(this.item)
-      if (result.code) {
-        this.$message.warning(result.message)
-        this.search()
-        this.loading = false
-        return
-      }
-      this.$message.success(result.message)
-      this.loading = false
-    },
-    handlerCancel () {
-      this.item = null
+      const [start, end] = range
+      this.req.start = +start
+      this.req.end = +end
     }
+  },
+  computed: {
+    ...mapState(['dict'])
   }
 }
 </script>

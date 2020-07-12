@@ -6,8 +6,22 @@ import { getMenus, getDynamicRoutes } from '@/router/add_routers'
 
 Vue.use(VueRouter)
 
+const scrollBehavior = (to, from, savedPosition) => {
+  if (savedPosition) {
+    return savedPosition
+  }
+  const position = {}
+  if (to.hash) {
+    position.selector = to.hash
+  }
+  position.x = 0
+  position.y = 0
+  return position
+}
+
 const router = new VueRouter({
-  routes
+  routes,
+  scrollBehavior
 })
 
 // const whiteList = ['login', '404']

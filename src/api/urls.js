@@ -23,6 +23,7 @@ export default {
   ApiProfile: S('/api/profile', G),
   // 更新个人信息
   ApiUpdProfile: S('/api/profile', U),
+  ApiUpdSecurity: S('/api/security', U),
   // 上传文件
   ApiUpload: S('/api/upload', P),
   // 获取配置列表
@@ -35,6 +36,8 @@ export default {
   ApiDelQuanta: S('/api/quanta', D),
   // 获取用户列表
   ApiUsers: S('/api/users', G),
+  // 获取用户信息
+  ApiUser: S('/api/user', G),
   // 更新用户信息
   ApiUpdUser: S('/api/user', U),
   // 获取文章列表

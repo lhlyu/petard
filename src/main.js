@@ -2,21 +2,20 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-
-import Antd from 'ant-design-vue'
-
-import 'ant-design-vue/dist/antd.less'
+import Element from 'element-ui'
+import VueClipboard from 'vue-clipboard2'
 
 import 'animate.css'
+import './styles/el.scss'
 import './styles/index.scss'
-
 import 'vditor/dist/index.css'
 
 import './mixins'
 import './directives'
 import './mock'
 
-Vue.use(Antd)
+Vue.use(Element)
+Vue.use(VueClipboard)
 
 Vue.config.productionTip = false
 

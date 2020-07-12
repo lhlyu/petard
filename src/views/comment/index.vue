@@ -1,112 +1,166 @@
 <template>
-  <a-spin :spinning="loading">
-    <a-row :gutter="[0,15]">
-      <a-col :span="24">
-        <a-card>
-          <a-form layout="inline">
-            <a-form-item label="用户ID">
-              <a-input-number allowClear :maxLength="11" :min="0" v-model="req.userId"></a-input-number>
-            </a-form-item>
-            <a-form-item label="文章ID">
-              <a-input-number allowClear :maxLength="11" :min="0" v-model="req.articleId"></a-input-number>
-            </a-form-item>
-            <a-form-item label="状态">
-              <a-select style="width: 120px" v-model="req.state" allowClear>
-                <a-select-option :value="i" v-for="(v, i) in states" :key="i">
-                  {{v}}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-            <a-form-item label="时间范围">
-              <a-range-picker @change="handlerPickDatetime" allowClear />
-            </a-form-item>
-            <a-form-item>
-              <a-button icon="search" @click="search">搜索</a-button>
-            </a-form-item>
-          </a-form>
-        </a-card>
-      </a-col>
-      <a-col :span="24">
-        <a-card>
-          <a-list :pagination="req" item-layout="horizontal" :data-source="items">
-            <a-list-item slot="renderItem" slot-scope="item">
-              <a-comment :author="`${item.userExt.n} 「 id:${item.userId} 」`" :avatar="item.userExt.a">
-                <a-tooltip slot="datetime">
-                  <span><Time :time="item.createdAt"></Time></span>
-                </a-tooltip>
-                <p slot="content" style="letter-spacing: 2px;line-height: 1.8;margin-top: 15px">
-                  {{ item.content }}
-                </p>
-                <template slot="actions">
-                  <div>
-                    <a-badge :color="stateColors[item.state]" :text="states[item.state]" />
-                    <a-divider type="vertical" />
-                    <span class="fa fa-file-text-o"> {{item.articleId}}</span>
-                    <a-divider type="vertical" v-if="item.atUserId" />
-                    <span v-if="item.atUserId" class="fa fa-at">
-                     {{item.atUserExt.n}}「 id:{{item.atUserId}} 」
-                    </span>
-                  </div>
-                </template>
-              </a-comment>
-              <div slot="actions">
-                <a-radio-group v-model="item.state" @change="handlerStateChange(item)">
-                  <a-radio :style="radioStyle" :value="1">
-                    {{states[1]}}
-                  </a-radio>
-                  <a-radio :style="radioStyle" :value="2">
-                    {{states[2]}}
-                  </a-radio>
-                  <a-radio :style="radioStyle" :value="3">
-                    {{states[3]}}
-                  </a-radio>
-                </a-radio-group>
-              </div>
-            </a-list-item>
-          </a-list>
-        </a-card>
-      </a-col>
-    </a-row>
-  </a-spin>
+  <div v-loading="loading">
+    <el-row>
+      <el-collapse-transition>
+        <el-card shadow="never" v-show="searchShow">
+          <el-form inline :model="req" ref="form" label-position="left" label-suffix=":" size="mini">
+            <el-form-item label="用户ID" prop="userId">
+              <el-input-number placeholder="用户ID" clearable controls-position="right" :min="0" :step-strictly="true" v-model="req.userId"></el-input-number>
+            </el-form-item>
+            <el-form-item label="文章ID" prop="articleId">
+              <el-input-number placeholder="文章ID" clearable controls-position="right" :min="0" :step-strictly="true" v-model="req.articleId"></el-input-number>
+            </el-form-item>
+            <el-form-item label="昵称" prop="nickName">
+              <el-input placeholder="昵称" clearable maxlength="50" show-word-limit v-model="req.nickName"></el-input>
+            </el-form-item>
+            <el-form-item label="状态" prop="state">
+              <el-select v-model="req.state" clearable placeholder="请选择">
+                <el-option
+                  v-for="item in dict.comment.state"
+                  :key="item.key"
+                  :label="item.value"
+                  :value="item.key">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="时间范围" prop="range">
+              <el-date-picker
+                v-model="req.range"
+                type="daterange"
+                align="right"
+                unlink-panels
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :picker-options="pickerOptions"
+                @change="handlerDaterange"
+              >
+              </el-date-picker>
+            </el-form-item>
+            <br>
+            <el-form-item>
+              <el-button type="primary" plain @click="search">搜索</el-button>
+              <el-button plain @click="reset">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-collapse-transition>
+    </el-row>
+
+    <el-row>
+      <el-card shadow="never">
+        <Comment v-for="(v, i) in items" :key="i" :data="v">
+          <template #avatar="{data}">
+            <el-avatar class="u-cursor" :size="45" :src="data.userExt.a" @click.native="handlerEdit(data.userId)">
+            </el-avatar>
+          </template>
+          <template #info="{data}">
+            <el-link :underline="false" :href="data.userExt.u" target="_blank">{{data.userExt.n}}</el-link><br>
+            <span style="margin-top: 4px;font-size: 12px">({{data.userId}})</span>
+          </template>
+          <template #title="{data}">
+            <span class="el-icon-document">[ID:{{data.articleId}}]</span><span>{{data.userExt.t}}</span>
+          </template>
+          <template #ext="{data}">
+            <el-link :underline="false" icon="el-icon-finished" v-if="data.state !== 2" @click="edit(data, 2)">正常</el-link>
+            <el-link :underline="false" icon="el-icon-remove-outline" v-if="data.state !== 3" @click="edit(data, 3)" style="margin-left: 10px">禁用</el-link>
+          </template>
+          <template #content="{data}">
+            <blockquote class="u-row-1" v-if="data.atUserId">
+              @<el-link :underline="false" @click="handlerEdit(data.atUserId)">{{data.atUserExt.n}}({{data.atUserId}})</el-link>：{{data.atUserExt.c}}
+            </blockquote>
+            <p>{{data.content}}</p>
+          </template>
+          <template #footer="{data}">
+            <el-badge is-dot :type="dict.comment.state.find(v => v.key == data.state).color">
+              {{dict.comment.state.find(v => v.key == data.state).value}}
+            </el-badge>
+            <el-divider direction="vertical"></el-divider>
+            <span class="el-icon-time"><Time :time="data.createdAt"></Time></span>
+          </template>
+        </Comment>
+        <br>
+        <el-pagination
+          background
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-sizes="[5,10,15,20,25,30,50]"
+          layout="total, sizes, prev, pager, next, jumper"
+          :current-page="page.pageNum"
+          :page-size="page.pageSize"
+          :total="page.total">
+        </el-pagination>
+      </el-card>
+    </el-row>
+
+    <el-dialog title="编辑用户" width="350px" :visible.sync="dialogUserVisible" @close="handlerDialogClose">
+      <User :id="userId"></User>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
 
+import Comment from '@/components/Comment'
 import Time from '@/components/Time'
+import User from '@/components/User'
+import { mapState } from 'vuex'
 
 export default {
   name: 'index',
   components: {
-    Time
+    Comment,
+    Time,
+    User
   },
   data () {
     return {
       loading: false,
-      states: ['所有', '待审', '正常', '禁用'],
-      stateColors: ['#eeeeee', 'red', 'green', '#000000'],
-      radioStyle: {
-        display: 'block',
-        height: '30px',
-        width: '100px',
-        lineHeight: '30px',
-        textAlign: 'left'
+      searchShow: true,
+      dialogUserVisible: false,
+      userId: null,
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
       },
-      items: [],
-      req: {
-        onChange: this.handlerPageChange,
-        onShowSizeChange: this.handlerPageSizeChange,
-        showSizeChanger: true,
-        pageSizeOptions: ['5', '10', '20', '30', '40', '50'],
-        current: 1,
+      page: {
         pageNum: 1,
         pageSize: 5,
-        total: 0,
-        userId: 0,
-        articleId: 0,
-        start: 0,
-        end: 0,
-        state: 0
-      }
+        total: 0
+      },
+      req: {
+        userId: null,
+        articleId: null,
+        nickName: '',
+        state: null,
+        range: null,
+        start: null,
+        end: null
+      },
+      items: []
     }
   },
   methods: {
@@ -115,48 +169,63 @@ export default {
     },
     async search () {
       this.loading = true
-      const result = await this.$request.fetchComments(this.req)
+      const req = { ...this.req, ...this.page }
+      const result = await this.$request.fetchComments(req)
       if (result.code) {
         this.items = []
-        this.req.current = 1
-        this.req.pageNum = 1
-        this.req.total = 0
+        this.$message.warning(result.message)
         this.loading = false
         return
       }
       this.items = result.data.list
-      this.req = Object.assign(this.req, result.data.page)
-      this.req.current = this.req.pageNum
+      Object.assign(this.page, result.data.page)
       this.loading = false
     },
-    handlerPageChange (page, pageSize) {
-      this.req.pageNum = parseInt(page)
-      this.req.current = parseInt(page)
-      this.req.pageSize = parseInt(pageSize)
-      this.search()
+    reset () {
+      this.$refs.form.resetFields()
     },
-    handlerPageSizeChange (current, size) {
-      this.req.pageNum = parseInt(current)
-      this.req.current = parseInt(current)
-      this.req.pageSize = parseInt(size)
-      this.search()
-    },
-    async handlerStateChange (item) {
-      this.loading = true
-      const result = await this.$request.fetchUpdComment(item)
+    async edit (data, state) {
+      const result = await this.$request.fetchUpdComment({
+        id: data.id,
+        state: state
+      })
       if (result.code) {
         this.$message.warning(result.message)
-        this.search()
-        this.loading = false
         return
       }
       this.$message.success(result.message)
-      this.loading = false
+      this.search()
     },
-    handlerPickDatetime (value) {
-      this.req.start = +value[0]
-      this.req.end = +value[1]
+    // ------------ handler -----------------
+    handleSizeChange (pageSize) {
+      this.page.pageSize = pageSize
+      this.page.pageNum = 1
+      this.search()
+    },
+    handleCurrentChange (pageNum) {
+      this.page.pageNum = pageNum
+      this.search()
+    },
+    handlerDaterange (range) {
+      if (!range) {
+        this.req.start = 0
+        this.req.end = 0
+        return
+      }
+      const [start, end] = range
+      this.req.start = +start
+      this.req.end = +end
+    },
+    handlerEdit (userId) {
+      this.dialogUserVisible = true
+      this.userId = userId
+    },
+    handlerDialogClose () {
+      this.userId = 0
     }
+  },
+  computed: {
+    ...mapState(['dict'])
   }
 }
 </script>

@@ -2,7 +2,6 @@
   position: relative;
   background: #212121;
   padding-top: 90px;
-  padding-left: 10px;
   padding-bottom: 10px;
   overflow: hidden;
   .u-user-avatar{
@@ -10,6 +9,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-left: 10px;
     img{
       border: solid 3px #ffffff;
     }
@@ -21,6 +21,7 @@
       padding-left: 30px;
       border-bottom: solid 3px #ffffff;
       letter-spacing: 2px;
+      margin-bottom: 4px;
     }
   }
   .u-menu-lock{
@@ -43,6 +44,7 @@
 
 .u-menu {
   width: 100%;
+  overflow-x: hidden;
   .ant-menu-inline {
     border-right: none;
   }

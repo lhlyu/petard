@@ -4,7 +4,7 @@ module.exports = {
   title: 'Petard',
   description: '管理系统',
   dest: './public/docs',
-  base: isProduction ? '/horae/docs/' : '/',
+  base: isProduction ? '/petard/docs/' : '/',
   head:[
     ['link', {rel:'icon', href:'/image/favicon.ico'}]
   ],

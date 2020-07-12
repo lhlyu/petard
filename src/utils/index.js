@@ -1,8 +1,5 @@
 export const getUrlParams = (param, url) => {
-  if (url.indexOf('?') === 1) {
-    return false
-  }
-  url = url.substr(1)
+  url = url.substr(url.indexOf('?') + 1)
   url = url.split('&')
   let nameres
   // 获取全部参数及其值

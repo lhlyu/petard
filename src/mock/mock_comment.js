@@ -9,6 +9,7 @@ export default ({ mock }) => {
   M(api.ApiComments, options => {
     const pageSize = parseInt(getUrlParams('pageSize', options.url))
     const pageNum = parseInt(getUrlParams('pageNum', options.url))
+    const state = parseInt(getUrlParams('state', options.url))
     const items = []
     for (let i = 0; i < pageSize; i++) {
       const item = {
@@ -17,6 +18,7 @@ export default ({ mock }) => {
         content: Mock.Random.cparagraph(2, 10),
         userId: Mock.Random.natural(1000, 20000),
         userExt: {
+          t: Mock.Random.cparagraph(1),
           a: `http://www.thiswaifudoesnotexist.net/example-${Mock.Random.natural(5000, 10000)}.jpg`,
           n: Mock.Random.cname(),
           u: Mock.Random.url('http')
@@ -24,6 +26,7 @@ export default ({ mock }) => {
         atId: Mock.Random.natural(1000, 20000),
         atUserId: Mock.Random.natural(1000, 20000),
         atUserExt: {
+          c: Mock.Random.cparagraph(2, 4),
           a: `http://www.thiswaifudoesnotexist.net/example-${Mock.Random.natural(5000, 10000)}.jpg`,
           n: Mock.Random.cname(),
           u: Mock.Random.url('http')
@@ -34,6 +37,9 @@ export default ({ mock }) => {
       }
       if (Mock.Random.boolean()) {
         item.atUserId = 0
+      }
+      if (state) {
+        item.state = state
       }
       items.push(item)
     }

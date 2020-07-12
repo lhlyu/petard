@@ -1,0 +1,69 @@
+.u-comment{
+  display: flex;
+
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  .u-user {
+    width: 100px;
+    text-align: center;
+    .u-avatar{
+    }
+    .u-user-info{
+    }
+  }
+
+  .u-container{
+    flex: 1;
+    border: 1px solid #dedede;
+    border-radius: 4px;
+
+    .u-comment-header{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 10px 15px;
+      background: #f8f8f8;
+      border-bottom: 1px solid #eee;
+
+      .u-left{
+        letter-spacing: 2px;
+        font-weight: 700;
+        font-size: 14px;
+        color: #999;
+      }
+      .u-right{
+
+      }
+    }
+
+    .u-comment-content{
+      padding: 10px 15px;
+      letter-spacing: 2px;
+      line-height: 1.5;
+      font-family: Segoe UI,Lucida Grande,Helvetica,Arial,Microsoft YaHei,FreeSans,Arimo,Droid Sans,wenquanyi micro hei,Hiragino Sans GB,Hiragino Sans GB W3,FontAwesome,sans-serif;
+      color: #333;
+      font-size: 14px;
+      blockquote{
+        margin: 5px 0;
+        padding: 0 5px;
+        padding-left: 15px;
+        font-size: 13px;
+        color: #697b8c;
+        border-left: 4px solid #ebedf0;
+        font-family: Georgia,Times New Roman,Times,Kai,Kaiti SC,KaiTi,BiauKai,FontAwesome,serif;
+      }
+    }
+
+    .u-comment-footer{
+      padding: 10px 15px;
+      background: #f8f8f8;
+      border-top: 1px solid #eee;
+      letter-spacing: 1px;
+      font-weight: 400;
+      font-size: 13px;
+      color: #999;
+    }
+  }
+}

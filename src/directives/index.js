@@ -1,6 +1,6 @@
 // 自定义指令
 import Vue from 'vue'
-import { message } from 'ant-design-vue'
+import { Message } from 'element-ui'
 
 // 参考: https://cn.vuejs.org/v2/guide/custom-directive.html
 
@@ -31,7 +31,7 @@ Vue.directive('throttling', {
         el.preTime = nowTime
         el.callback()
       } else {
-        message.warning('请求太频繁，休息一下~')
+        Message.warning('请求太频繁，休息一下~')
       }
     })
   },

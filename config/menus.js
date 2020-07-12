@@ -11,12 +11,14 @@ const menus = {
   // ----------------------------------------------------------------------------------------------
   article: { title: '文章管理', name: 'article', icon: 'fa fa-file-text-o', path: '/admin/article', upper: 'admin' },
   articleList: { title: '文章列表', name: 'article-list', icon: 'fa fa-files-o', path: '/admin/article/list', upper: 'article' },
-  articleEdit: { title: '编辑文章', name: 'article-edit', icon: 'fa fa-plus', path: '/admin/article/edit', upper: 'article' },
+  articleEdit: { title: '编辑文章', name: 'article-edit', icon: 'fa fa-pencil-square-o', path: '/admin/article/edit', upper: 'article' },
   category: { title: '文章分类', name: 'category', icon: 'fa fa-bookmark-o', path: '/admin/article/category', upper: 'article' },
   // ----------------------------------------------------------------------------------------------
   comment: { title: '评论管理', name: 'comment', icon: 'fa fa-commenting-o', path: '/admin/comment', upper: 'admin' },
-  demo: { title: '示例页面', name: 'demo', icon: 'fa fa-star-o', path: '/admin/demo', upper: 'admin' }
-
+  demo: { title: '示例页面', name: 'demo', icon: 'fa fa-star-o', path: '/admin/demo', upper: 'admin' },
+  other: { title: '小玩意', name: 'other', icon: 'fa fa-yelp', path: '/admin/other', upper: 'admin' },
+  task: { title: '任务板', name: 'task', icon: 'fa fa-tasks', path: '/admin/other/task', upper: 'other' },
+  card: { title: '卡片', name: 'card', icon: 'fa fa-square-o', path: '/admin/other/card', upper: 'other' }
 }
 
 export default menus

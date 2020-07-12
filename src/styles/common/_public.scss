@@ -22,8 +22,48 @@
   margin-bottom: 10px;
 }
 
-.ant-tooltip-inner {
-  min-height: auto !important;
+.u-center{
+  display:flex;
+  align-items:center;
+  justify-content: center;
 }
 
+.u-align-left{
+  text-align: left;
+}
+
+.u-align-right{
+  text-align: right;
+}
+
+.u-item-label{
+  color: #99a9bf;
+}
+
+.u-dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.u-margin-right{
+  margin-right: 15px;
+}
+
+.u-row-1{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.el-table__body, .el-table__header{
+  width: 100% !important;
+}
+// 让table在flex布局下可以自适应
+.el-table__header colgroup col:last-child {
+  display: none;
+}
 

@@ -1,0 +1,18 @@
+.u-article {
+  display: flex;
+  width: 100%;
+  height: 400px;
+  background: white;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 2px 2px 20px #ccc;
+  &__cover {
+    flex: 2;
+    background: linear-gradient(to right, rgba(#ffffff,0), rgba(#ffffff,0.95)), url("https://cdn.jsdelivr.net/gh/lhlyu/pb@master/b/50.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  &__container {
+    flex: 1;
+  }
+}

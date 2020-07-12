@@ -2,8 +2,6 @@ import Mock from 'mockjs'
 import M from './mock'
 import api from '../api/urls'
 
-import { getUrlParams } from '../utils'
-
 export default ({ mock }) => {
   if (!mock) return
   // 个人信息
@@ -18,7 +16,6 @@ export default ({ mock }) => {
       avatar: `http://www.thiswaifudoesnotexist.net/example-${Mock.Random.natural(5000, 10000)}.jpg`,
       bio: Mock.Random.cword(16),
       url: 'https://github.com/lhlyu',
-      ip: Mock.Random.ip(),
       lastAt: +new Date(Mock.Random.datetime()),
       createdAt: +new Date(Mock.Random.datetime())
     }
@@ -26,6 +23,13 @@ export default ({ mock }) => {
 
   // 更新个人信息
   M(api.ApiUpdProfile, {
+    code: 0,
+    message: 'success',
+    data: null
+  })
+
+  // 安全设置
+  M(api.ApiUpdSecurity, {
     code: 0,
     message: 'success',
     data: null

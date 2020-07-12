@@ -12,7 +12,7 @@
 | avatar         | varchar(200)  | 头像  |
 | bio            | varchar(200)  | Bio  |
 | url            | varchar(200)  | 个人地址  |
-| ip             | varchar(50)   | IP  |
+| ip             | varchar(39)   | IPv4/IPv6  |
 | identity       | tinyint       | 身份  |
 | state          | tinyint       | 用户状态  |
 | last_at        | bigint        | 最近登陆  |
