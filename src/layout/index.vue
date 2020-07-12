@@ -1,7 +1,7 @@
 <template>
   <div class="u-layout u-transition">
     <div class="u-aside u-transition" ref="aside">
-      <div @mouseenter="changeWidth(true)" style="width:4px;position:fixed;left:0;top:21px;bottom:128px;z-index:9999;"></div>
+      <div @mouseenter="changeWidth(true)" style="width:4px;position:fixed;left:0;top:21px;bottom:21px;z-index:9999;"></div>
       <ASide></ASide>
     </div>
     <div class="u-main u-transition"  @mouseenter="changeWidth(false)">

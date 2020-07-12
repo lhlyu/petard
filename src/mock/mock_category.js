@@ -12,7 +12,7 @@ export default ({ mock }) => {
     const items = []
     for (let i = 0; i < pageSize; i++) {
       const item = {
-        id: Mock.Random.natural(1000, 20000),
+        id: i + 1,
         name: Mock.Random.cname(2, 4),
         color: Mock.Random.color(),
         count: Mock.Random.integer(0, 10),
