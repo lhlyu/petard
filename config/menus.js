@@ -18,7 +18,8 @@ const menus = {
   demo: { title: '示例页面', name: 'demo', icon: 'fa fa-star-o', path: '/admin/demo', upper: 'admin' },
   other: { title: '小玩意', name: 'other', icon: 'fa fa-yelp', path: '/admin/other', upper: 'admin' },
   task: { title: '任务板', name: 'task', icon: 'fa fa-tasks', path: '/admin/other/task', upper: 'other' },
-  card: { title: '卡片', name: 'card', icon: 'fa fa-square-o', path: '/admin/other/card', upper: 'other' }
+  card: { title: '卡片', name: 'card', icon: 'fa fa-square-o', path: '/admin/other/card', upper: 'other' },
+  gen: { title: '表单生成', name: 'gen', icon: 'fa fa-table', path: '/admin/other/gen', upper: 'other' }
 }
 
 export default menus

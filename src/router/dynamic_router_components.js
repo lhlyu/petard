@@ -13,7 +13,8 @@ const dynamicRouterComponents = {
   comment: () => import('@/views/comment/index.vue'),
   demo: () => import('@/views/demo/index.vue'),
   task: () => import('@/views/other/task/index.vue'),
-  card: () => import('@/views/other/card/index.vue')
+  card: () => import('@/views/other/card/index.vue'),
+  gen: () => import('@/views/other/gen/index.vue')
 }
 
 export default dynamicRouterComponents
