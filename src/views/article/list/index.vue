@@ -61,7 +61,7 @@
           </template>
           <template #footer>
             <el-tooltip effect="light" content="类型" placement="top">
-              <span class="u-cursor el-icon-notebook-2"> 普通</span>
+              <span class="u-cursor el-icon-notebook-2"> {{dict.article.kind.find(val => val.key == v.kind).value}}</span>
             </el-tooltip>
             <el-divider direction="vertical"></el-divider>
             <el-tooltip effect="light" content="分类" placement="top">
@@ -69,11 +69,11 @@
             </el-tooltip>
             <el-divider direction="vertical"></el-divider>
             <el-tooltip effect="light" content="评论状态" placement="top">
-              <span class="u-cursor el-icon-chat-line-round"> 开放</span>
+              <span class="u-cursor el-icon-chat-line-round"> {{dict.article.commentState.find(val => val.key == v.commentState).value}}</span>
             </el-tooltip>
             <el-divider direction="vertical"></el-divider>
             <el-tooltip effect="light" content="状态" placement="top">
-              <span class="u-cursor el-icon-set-up"> 正常</span>
+              <span class="u-cursor el-icon-set-up"> {{dict.article.state.find(val => val.key == v.state).value}}</span>
             </el-tooltip>
             <el-divider direction="vertical"></el-divider>
             <el-tooltip effect="light" content="TOP" placement="top">
