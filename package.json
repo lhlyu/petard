@@ -7,8 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
-    "et": "et -i"
+    "docs:build": "vuepress build docs"
   },
   "dependencies": {
     "animate.css": "^4.1.0",
@@ -35,8 +34,6 @@
     "@vue/cli-service": "^4.4.0",
     "@vue/eslint-config-standard": "^5.1.2",
     "babel-eslint": "^10.1.0",
-    "element-theme": "^2.0.1",
-    "element-theme-chalk": "^2.13.2",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
