@@ -14,12 +14,12 @@
     }
   }
 
-  .u-container{
+  .u-comment__container{
     flex: 1;
     border: 1px solid #dedede;
     border-radius: 4px;
 
-    .u-comment-header{
+    .u-comment__header{
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -27,18 +27,18 @@
       background: #f8f8f8;
       border-bottom: 1px solid #eee;
 
-      .u-left{
+      .u-comment--left{
         letter-spacing: 2px;
         font-weight: 700;
         font-size: 14px;
         color: #999;
       }
-      .u-right{
+      .u-comment--right{
 
       }
     }
 
-    .u-comment-content{
+    .u-comment__content{
       padding: 10px 15px;
       letter-spacing: 2px;
       line-height: 1.5;
@@ -56,7 +56,7 @@
       }
     }
 
-    .u-comment-footer{
+    .u-comment__footer{
       padding: 10px 15px;
       background: #f8f8f8;
       border-top: 1px solid #eee;

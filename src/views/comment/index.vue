@@ -49,34 +49,34 @@
 
     <el-row>
       <el-card shadow="never">
-        <Comment v-for="(v, i) in items" :key="i" :data="v">
-          <template #avatar="{data}">
-            <el-avatar class="u-cursor" :size="45" :src="data.userExt.a" @click.native="handlerEdit(data.userId)">
+        <Comment v-for="(v, i) in items" :key="i">
+          <template #avatar>
+            <el-avatar class="u-cursor" :size="45" :src="v.userExt.a" @click.native="handlerEdit(v.userId)">
             </el-avatar>
           </template>
-          <template #info="{data}">
-            <el-link :underline="false" :href="data.userExt.u" target="_blank">{{data.userExt.n}}</el-link><br>
-            <span style="margin-top: 4px;font-size: 12px">({{data.userId}})</span>
+          <template #info>
+            <el-link :underline="false" :href="v.userExt.u" target="_blank">{{v.userExt.n}}</el-link><br>
+            <span style="margin-top: 4px;font-size: 12px">({{v.userId}})</span>
           </template>
-          <template #title="{data}">
-            <span class="el-icon-document">[ID:{{data.articleId}}]</span><span>{{data.userExt.t}}</span>
+          <template #title>
+            <span class="el-icon-document">[ID:{{v.articleId}}]</span><span>{{v.userExt.t}}</span>
           </template>
-          <template #ext="{data}">
-            <el-link :underline="false" icon="el-icon-finished" v-if="data.state !== 2" @click="edit(data, 2)">正常</el-link>
-            <el-link :underline="false" icon="el-icon-remove-outline" v-if="data.state !== 3" @click="edit(data, 3)" style="margin-left: 10px">禁用</el-link>
+          <template #ext>
+            <el-link :underline="false" icon="el-icon-finished" v-if="v.state !== 2" @click="edit(v, 2)">正常</el-link>
+            <el-link :underline="false" icon="el-icon-remove-outline" v-if="v.state !== 3" @click="edit(v, 3)" style="margin-left: 10px">禁用</el-link>
           </template>
-          <template #content="{data}">
-            <blockquote class="u-row-1" v-if="data.atUserId">
-              @<el-link :underline="false" @click="handlerEdit(data.atUserId)">{{data.atUserExt.n}}({{data.atUserId}})</el-link>：{{data.atUserExt.c}}
+          <template #content>
+            <blockquote class="u-row-1" v-if="v.atUserId">
+              @<el-link :underline="false" @click="handlerEdit(v.atUserId)">{{v.atUserExt.n}}({{v.atUserId}})</el-link>：{{v.atUserExt.c}}
             </blockquote>
-            <p>{{data.content}}</p>
+            <p>{{v.content}}</p>
           </template>
-          <template #footer="{data}">
-            <el-badge is-dot :type="dict.comment.state.find(v => v.key == data.state).color">
-              {{dict.comment.state.find(v => v.key == data.state).value}}
+          <template #footer>
+            <el-badge is-dot :type="dict.comment.state.find(val => val.key == v.state).color">
+              {{dict.comment.state.find(val => val.key == v.state).value}}
             </el-badge>
             <el-divider direction="vertical"></el-divider>
-            <span class="el-icon-time"><Time :time="data.createdAt"></Time></span>
+            <span class="el-icon-time"><Time :time="v.createdAt"></Time></span>
           </template>
         </Comment>
         <br>

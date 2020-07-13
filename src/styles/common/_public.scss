@@ -51,6 +51,18 @@
   margin-right: 15px;
 }
 
+.u-clearfix{
+  &:after{
+    content: '';
+    clear: both;
+  }
+}
+
+.u-flex-between{
+  display: flex;
+  justify-content: space-between;
+}
+
 .u-row-1{
   overflow: hidden;
   text-overflow: ellipsis;

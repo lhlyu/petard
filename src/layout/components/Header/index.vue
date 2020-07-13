@@ -1,6 +1,6 @@
 <template>
   <header class="u-header">
-    <div class="u-header-left">
+    <div class="u-header--left">
       <el-breadcrumb>
         <el-breadcrumb-item v-for="(v,i) in breadcrumbs" :key="i">
           <i :class="v.icon" style="margin-right: 5px"></i>
@@ -8,7 +8,7 @@
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div class="u-header-right">
+    <div class="u-header--right">
       <el-dropdown :hide-on-click="false" class="u-cursor">
         <span class="el-dropdown-link">
           {{profile.nickName}}<i class="el-icon-arrow-down el-icon--right"></i>

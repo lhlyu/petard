@@ -2,6 +2,14 @@
   <div v-loading="loading">
     <el-row>
       <el-card shadow="never">
+        <div slot="header" class="u-flex-between">
+          <span>{{req.id === 0 ? '新增文章' : '修改文章'}}</span>
+          <div>
+            <el-button type="success" size="mini" plain @click="add">新增</el-button>
+            <el-button type="warning" size="mini" plain @click="reset">重置</el-button>
+            <el-button type="primary" size="mini" plain @click="save">保存</el-button>
+          </div>
+        </div>
         <el-tabs tab-position="left" style="min-height: 400px;">
           <el-tab-pane label="基本信息">
             <el-card shadow="never">
@@ -83,9 +91,6 @@
                     </el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item>
-                  <el-button size="mini" plain @click="save">保存</el-button>
-                </el-form-item>
               </el-form>
             </el-card>
           </el-tab-pane>
@@ -101,13 +106,11 @@
               <br>
               <br>
               <el-button size="mini" type="primary" plain @click="dialogCoverVisible = true">修改</el-button>
-              <el-button size="mini" plain @click="save">保存</el-button>
+              <el-button size="mini" type="warning" plain @click="req.cover = ''">删除</el-button>
             </el-card>
           </el-tab-pane>
           <el-tab-pane label="内容信息">
             <div id="vditor"></div>
-            <br>
-            <el-button size="mini" plain @click="save">保存</el-button>
           </el-tab-pane>
         </el-tabs>
       </el-card>
@@ -176,22 +179,32 @@ export default {
         }
       })
     },
+    add () {
+      this.req = {
+        id: 0,
+        title: '',
+        summary: '',
+        cover: '',
+        top: 0,
+        categoryId: null,
+        tags: [],
+        content: '',
+        kind: 1,
+        storeMode: 2,
+        state: 1,
+        commentState: 1
+      }
+      this.contentEditor.setValue('')
+    },
+    reset () {
+      if (this.req.id === 0) {
+        this.add()
+        return
+      }
+      this.loadArticle(this.req.id)
+    },
     async loadArticle (id) {
       if (!id) {
-        this.req = {
-          id: 0,
-          title: '',
-          summary: '',
-          cover: '',
-          top: 0,
-          categoryId: null,
-          tags: [],
-          content: '',
-          kind: 1,
-          storeMode: 2,
-          state: 1,
-          commentState: 1
-        }
         return
       }
       this.loading = true
@@ -222,11 +235,24 @@ export default {
       this.categorys = result.data.list
       this.loading = false
     },
-    save () {
+    async save () {
       const length = this.contentEditor.getHTML().trim().length
       if (length === 0) {
         this.$message.warning('内容不能为空！')
       }
+      if (this.isEmpty(this.req.title, '标题不能为空！')) {
+        return
+      }
+      this.req.content = this.contentEditor.getValue().trim()
+      this.loading = true
+      const result = await this.$request.fetchEditArticle(this.req)
+      if (result.code) {
+        this.$message.warning(result.message)
+        this.loading = false
+        return
+      }
+      this.$message.success(result.message)
+      this.loading = false
     },
     // ------------ handler -----------------
     handlerUpload (data) {

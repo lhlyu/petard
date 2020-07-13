@@ -75,14 +75,16 @@
           </el-tab-pane>
           <el-tab-pane label="头像信息">
             <el-card shadow="never">
-              <el-avatar shape="square" :size="100" fit="cover" :src="item.avatar" class="u-margin-right"></el-avatar>
-              <el-avatar shape="square" :size="60" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
-              <el-avatar shape="square" :size="40" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
-              <el-avatar shape="circle" :size="100" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
-              <el-avatar shape="circle" :size="60" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
-              <el-avatar shape="circle" :size="40" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
-              <br>
-              <br>
+              <div v-if="item">
+                <el-avatar shape="square" :size="100" fit="cover" :src="item.avatar" class="u-margin-right"></el-avatar>
+                <el-avatar shape="square" :size="60" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
+                <el-avatar shape="square" :size="40" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
+                <el-avatar shape="circle" :size="100" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
+                <el-avatar shape="circle" :size="60" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
+                <el-avatar shape="circle" :size="40" fit="cover" :src="item.avatar"  class="u-margin-right"></el-avatar>
+                <br>
+                <br>
+              </div>
               <el-button size="mini" type="primary" plain @click="dialogAvatarVisible = true">修改</el-button>
               <el-button size="mini" plain @click="save">保存</el-button>
             </el-card>

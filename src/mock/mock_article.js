@@ -21,7 +21,7 @@ export default ({ mock }) => {
         id: Mock.Random.natural(1000, 20000),
         title: Mock.Random.cparagraph(1),
         summary: Mock.Random.cparagraph(0, 5),
-        cover: Mock.Random.image(),
+        cover: `https://cdn.jsdelivr.net/gh/lhlyu/pb@master/b/${Mock.Random.natural(1, 50)}.jpg`,
         top: Mock.Random.integer(0, 10),
         categoryName: Mock.Random.cword(2, 4),
         tags: tags,

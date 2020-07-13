@@ -1,18 +1,61 @@
 .u-article {
   display: flex;
   width: 100%;
-  height: 400px;
-  background: white;
+  min-height: 200px;
   border-radius: 5px;
   overflow: hidden;
-  box-shadow: 2px 2px 20px #ccc;
+  border: 1px solid #dedede;
+
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
   &__cover {
-    flex: 2;
-    background: linear-gradient(to right, rgba(#ffffff,0), rgba(#ffffff,0.95)), url("https://cdn.jsdelivr.net/gh/lhlyu/pb@master/b/50.jpg");
+    --cover: none;
+    width: 200px;
+    background: var(--cover);
     background-size: cover;
     background-position: center;
   }
   &__container {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-left: 1px solid #dedede;
+    .u-article__header{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 10px 15px;
+      background: #f8f8f8;
+      border-bottom: 1px solid #eee;
+      .u-article--left{
+        letter-spacing: 2px;
+        font-weight: 700;
+        font-size: 14px;
+        color: #999;
+      }
+      .u-article--right{
+      }
+    }
+    .u-article__content{
+      flex: 1;
+      padding: 10px 15px;
+      letter-spacing: 2px;
+      line-height: 1.5;
+      font-family: Segoe UI,Lucida Grande,Helvetica,Arial,Microsoft YaHei,FreeSans,Arimo,Droid Sans,wenquanyi micro hei,Hiragino Sans GB,Hiragino Sans GB W3,FontAwesome,sans-serif;
+      color: #333;
+      font-size: 14px;
+    }
+    .u-article__footer{
+      padding: 10px 15px;
+      background: #f8f8f8;
+      border-top: 1px solid #eee;
+      letter-spacing: 1px;
+      font-weight: 400;
+      font-size: 13px;
+      color: #999;
+    }
   }
 }

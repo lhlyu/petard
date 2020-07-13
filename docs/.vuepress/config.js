@@ -20,7 +20,8 @@ module.exports = {
       '/guide/' :[
         '/guide/tables',
         '/guide/dict',
-        '/guide/lint'
+        '/guide/lint',
+        '/guide/project'
       ]
     }
   }
