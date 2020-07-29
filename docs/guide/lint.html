@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>lint 规则 | Petard</title>
+    <meta name="generator" content="VuePress 1.5.2">
+    <link rel="icon" href="/petard/docs/image/favicon.ico">
+    <meta name="description" content="管理系统">
+    <link rel="preload" href="/petard/docs/assets/css/0.styles.ced0379e.css" as="style"><link rel="preload" href="/petard/docs/assets/js/app.74946b4f.js" as="script"><link rel="preload" href="/petard/docs/assets/js/2.8aadb4a9.js" as="script"><link rel="preload" href="/petard/docs/assets/js/8.0038f4da.js" as="script"><link rel="prefetch" href="/petard/docs/assets/js/10.d402b487.js"><link rel="prefetch" href="/petard/docs/assets/js/3.d3d8b486.js"><link rel="prefetch" href="/petard/docs/assets/js/4.36a7ffa5.js"><link rel="prefetch" href="/petard/docs/assets/js/5.9d9c014e.js"><link rel="prefetch" href="/petard/docs/assets/js/6.76c064e5.js"><link rel="prefetch" href="/petard/docs/assets/js/7.5009eed2.js"><link rel="prefetch" href="/petard/docs/assets/js/9.a247695d.js">
+    <link rel="stylesheet" href="/petard/docs/assets/css/0.styles.ced0379e.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/petard/docs/" class="home-link router-link-active"><!----> <span class="site-name">Petard</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/petard/docs/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><a href="/petard/docs/guide/" class="nav-link router-link-active">
+  文档
+</a></div><div class="nav-item"><a href="https://lhlyu.github.io/petard/#/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  预览
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/lhlyu/petard" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/petard/docs/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><a href="/petard/docs/guide/" class="nav-link router-link-active">
+  文档
+</a></div><div class="nav-item"><a href="https://lhlyu.github.io/petard/#/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  预览
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div><div class="nav-item"><a href="https://github.com/lhlyu/petard" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/petard/docs/guide/tables.html" class="sidebar-link">表设计</a></li><li><a href="/petard/docs/guide/dict.html" class="sidebar-link">字典</a></li><li><a href="/petard/docs/guide/lint.html" aria-current="page" class="active sidebar-link">lint 规则</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/petard/docs/guide/lint.html#枚举" class="sidebar-link">枚举</a></li><li class="sidebar-sub-header"><a href="/petard/docs/guide/lint.html#规则" class="sidebar-link">规则</a></li></ul></li><li><a href="/petard/docs/guide/project.html" class="sidebar-link">项目目录结构</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="lint-规则"><a href="#lint-规则" class="header-anchor">#</a> lint 规则</h1> <h2 id="枚举"><a href="#枚举" class="header-anchor">#</a> 枚举</h2> <div class="language- extra-class"><pre class="language-text"><code>&quot;off&quot;或者0    //关闭规则关闭
+&quot;warn&quot;或者1    //在打开的规则作为警告（不影响退出代码）
+&quot;error&quot;或者2    //把规则作为一个错误（退出代码触发时为1）
+</code></pre></div><h2 id="规则"><a href="#规则" class="header-anchor">#</a> 规则</h2> <div class="language- extra-class"><pre class="language-text"><code>&quot;no-alert&quot;: 0,//禁止使用alert confirm prompt
+&quot;no-array-constructor&quot;: 2,//禁止使用数组构造器
+&quot;no-bitwise&quot;: 0,//禁止使用按位运算符
+&quot;no-caller&quot;: 1,//禁止使用arguments.caller或arguments.callee
+&quot;no-catch-shadow&quot;: 2,//禁止catch子句参数与外部作用域变量同名
+&quot;no-class-assign&quot;: 2,//禁止给类赋值
+&quot;no-cond-assign&quot;: 2,//禁止在条件表达式中使用赋值语句
+&quot;no-console&quot;: 2,//禁止使用console
+&quot;no-const-assign&quot;: 2,//禁止修改const声明的变量
+&quot;no-constant-condition&quot;: 2,//禁止在条件中使用常量表达式 if(true) if(1)
+&quot;no-continue&quot;: 0,//禁止使用continue
+&quot;no-control-regex&quot;: 2,//禁止在正则表达式中使用控制字符
+&quot;no-debugger&quot;: 2,//禁止使用debugger
+&quot;no-delete-var&quot;: 2,//不能对var声明的变量使用delete操作符
+&quot;no-div-regex&quot;: 1,//不能使用看起来像除法的正则表达式/=foo/
+&quot;no-dupe-keys&quot;: 2,//在创建对象字面量时不允许键重复 {a:1,a:1}
+&quot;no-dupe-args&quot;: 2,//函数参数不能重复
+&quot;no-duplicate-case&quot;: 2,//switch中的case标签不能重复
+&quot;no-else-return&quot;: 2,//如果if语句里面有return,后面不能跟else语句
+&quot;no-empty&quot;: 2,//块语句中的内容不能为空
+&quot;no-empty-character-class&quot;: 2,//正则表达式中的[]内容不能为空
+&quot;no-empty-label&quot;: 2,//禁止使用空label
+&quot;no-eq-null&quot;: 2,//禁止对null使用==或!=运算符
+&quot;no-eval&quot;: 1,//禁止使用eval
+&quot;no-ex-assign&quot;: 2,//禁止给catch语句中的异常参数赋值
+&quot;no-extend-native&quot;: 2,//禁止扩展native对象
+&quot;no-extra-bind&quot;: 2,//禁止不必要的函数绑定
+&quot;no-extra-boolean-cast&quot;: 2,//禁止不必要的bool转换
+&quot;no-extra-parens&quot;: 2,//禁止非必要的括号
+&quot;no-extra-semi&quot;: 2,//禁止多余的冒号
+&quot;no-fallthrough&quot;: 1,//禁止switch穿透
+&quot;no-floating-decimal&quot;: 2,//禁止省略浮点数中的0 .5 3.
+&quot;no-func-assign&quot;: 2,//禁止重复的函数声明
+&quot;no-implicit-coercion&quot;: 1,//禁止隐式转换
+&quot;no-implied-eval&quot;: 2,//禁止使用隐式eval
+&quot;no-inline-comments&quot;: 0,//禁止行内备注
+&quot;no-inner-declarations&quot;: [2, &quot;functions&quot;],//禁止在块语句中使用声明（变量或函数）
+&quot;no-invalid-regexp&quot;: 2,//禁止无效的正则表达式
+&quot;no-invalid-this&quot;: 2,//禁止无效的this，只能用在构造器，类，对象字面量
+&quot;no-irregular-whitespace&quot;: 2,//不能有不规则的空格
+&quot;no-iterator&quot;: 2,//禁止使用__iterator__ 属性
+&quot;no-label-var&quot;: 2,//label名不能与var声明的变量名相同
+&quot;no-labels&quot;: 2,//禁止标签声明
+&quot;no-lone-blocks&quot;: 2,//禁止不必要的嵌套块
+&quot;no-lonely-if&quot;: 2,//禁止else语句内只有if语句
+&quot;no-loop-func&quot;: 1,//禁止在循环中使用函数（如果没有引用外部变量不形成闭包就可以）
+&quot;no-mixed-requires&quot;: [0, false],//声明时不能混用声明类型
+&quot;no-mixed-spaces-and-tabs&quot;: [2, false],//禁止混用tab和空格
+&quot;linebreak-style&quot;: [0, &quot;windows&quot;],//换行风格
+&quot;no-multi-spaces&quot;: 1,//不能用多余的空格
+&quot;no-multi-str&quot;: 2,//字符串不能用\换行
+&quot;no-multiple-empty-lines&quot;: [1, {&quot;max&quot;: 2}],//空行最多不能超过2行
+&quot;no-native-reassign&quot;: 2,//不能重写native对象
+&quot;no-negated-in-lhs&quot;: 2,//in 操作符的左边不能有!
+&quot;no-nested-ternary&quot;: 0,//禁止使用嵌套的三目运算
+&quot;no-new&quot;: 1,//禁止在使用new构造一个实例后不赋值
+&quot;no-new-func&quot;: 1,//禁止使用new Function
+&quot;no-new-object&quot;: 2,//禁止使用new Object()
+&quot;no-new-require&quot;: 2,//禁止使用new require
+&quot;no-new-wrappers&quot;: 2,//禁止使用new创建包装实例，new String new Boolean new Number
+&quot;no-obj-calls&quot;: 2,//不能调用内置的全局对象，比如Math() JSON()
+&quot;no-octal&quot;: 2,//禁止使用八进制数字
+&quot;no-octal-escape&quot;: 2,//禁止使用八进制转义序列
+&quot;no-param-reassign&quot;: 2,//禁止给参数重新赋值
+&quot;no-path-concat&quot;: 0,//node中不能使用__dirname或__filename做路径拼接
+&quot;no-plusplus&quot;: 0,//禁止使用++，--
+&quot;no-process-env&quot;: 0,//禁止使用process.env
+&quot;no-process-exit&quot;: 0,//禁止使用process.exit()
+&quot;no-proto&quot;: 2,//禁止使用__proto__属性
+&quot;no-redeclare&quot;: 2,//禁止重复声明变量
+&quot;no-regex-spaces&quot;: 2,//禁止在正则表达式字面量中使用多个空格 /foo bar/
+&quot;no-restricted-modules&quot;: 0,//如果禁用了指定模块，使用就会报错
+&quot;no-return-assign&quot;: 1,//return 语句中不能有赋值表达式
+&quot;no-script-url&quot;: 0,//禁止使用javascript:void(0)
+&quot;no-self-compare&quot;: 2,//不能比较自身
+&quot;no-sequences&quot;: 0,//禁止使用逗号运算符
+&quot;no-shadow&quot;: 2,//外部作用域中的变量不能与它所包含的作用域中的变量或参数同名
+&quot;no-shadow-restricted-names&quot;: 2,//严格模式中规定的限制标识符不能作为声明时的变量名使用
+&quot;no-spaced-func&quot;: 2,//函数调用时 函数名与()之间不能有空格
+&quot;no-sparse-arrays&quot;: 2,//禁止稀疏数组， [1,,2]
+&quot;no-sync&quot;: 0,//nodejs 禁止同步方法
+&quot;no-ternary&quot;: 0,//禁止使用三目运算符
+&quot;no-trailing-spaces&quot;: 1,//一行结束后面不要有空格
+&quot;no-this-before-super&quot;: 0,//在调用super()之前不能使用this或super
+&quot;no-throw-literal&quot;: 2,//禁止抛出字面量错误 throw &quot;error&quot;;
+&quot;no-undef&quot;: 1,//不能有未定义的变量
+&quot;no-undef-init&quot;: 2,//变量初始化时不能直接给它赋值为undefined
+&quot;no-undefined&quot;: 2,//不能使用undefined
+&quot;no-unexpected-multiline&quot;: 2,//避免多行表达式
+&quot;no-underscore-dangle&quot;: 1,//标识符不能以_开头或结尾
+&quot;no-unneeded-ternary&quot;: 2,//禁止不必要的嵌套 var isYes = answer === 1 ? true : false;
+&quot;no-unreachable&quot;: 2,//不能有无法执行的代码
+&quot;no-unused-expressions&quot;: 2,//禁止无用的表达式
+&quot;no-unused-vars&quot;: [2, {&quot;vars&quot;: &quot;all&quot;, &quot;args&quot;: &quot;after-used&quot;}],//不能有声明后未被使用的变量或参数
+&quot;no-use-before-define&quot;: 2,//未定义前不能使用
+&quot;no-useless-call&quot;: 2,//禁止不必要的call和apply
+&quot;no-void&quot;: 2,//禁用void操作符
+&quot;no-var&quot;: 0,//禁用var，用let和const代替
+&quot;no-warning-comments&quot;: [1, { &quot;terms&quot;: [&quot;todo&quot;, &quot;fixme&quot;, &quot;xxx&quot;], &quot;location&quot;: &quot;start&quot; }],//不能有警告备注
+&quot;no-with&quot;: 2,//禁用with
+
+&quot;array-bracket-spacing&quot;: [2, &quot;never&quot;],//是否允许非空数组里面有多余的空格
+&quot;arrow-parens&quot;: 0,//箭头函数用小括号括起来
+&quot;arrow-spacing&quot;: 0,//=&gt;的前/后括号
+&quot;accessor-pairs&quot;: 0,//在对象中使用getter/setter
+&quot;block-scoped-var&quot;: 0,//块语句中使用var
+&quot;brace-style&quot;: [1, &quot;1tbs&quot;],//大括号风格
+&quot;callback-return&quot;: 1,//避免多次调用回调什么的
+&quot;camelcase&quot;: 2,//强制驼峰法命名
+&quot;comma-dangle&quot;: [2, &quot;never&quot;],//对象字面量项尾不能有逗号
+&quot;comma-spacing&quot;: 0,//逗号前后的空格
+&quot;comma-style&quot;: [2, &quot;last&quot;],//逗号风格，换行时在行首还是行尾
+&quot;complexity&quot;: [0, 11],//循环复杂度
+&quot;computed-property-spacing&quot;: [0, &quot;never&quot;],//是否允许计算后的键名什么的
+&quot;consistent-return&quot;: 0,//return 后面是否允许省略
+&quot;consistent-this&quot;: [2, &quot;that&quot;],//this别名
+&quot;constructor-super&quot;: 0,//非派生类不能调用super，派生类必须调用super
+&quot;curly&quot;: [2, &quot;all&quot;],//必须使用 if(){} 中的{}
+&quot;default-case&quot;: 2,//switch语句最后必须有default
+&quot;dot-location&quot;: 0,//对象访问符的位置，换行的时候在行首还是行尾
+&quot;dot-notation&quot;: [0, { &quot;allowKeywords&quot;: true }],//避免不必要的方括号
+&quot;eol-last&quot;: 0,//文件以单一的换行符结束
+&quot;eqeqeq&quot;: 2,//必须使用全等
+&quot;func-names&quot;: 0,//函数表达式必须有名字
+&quot;func-style&quot;: [0, &quot;declaration&quot;],//函数风格，规定只能使用函数声明/函数表达式
+&quot;generator-star-spacing&quot;: 0,//生成器函数*的前后空格
+&quot;guard-for-in&quot;: 0,//for in循环要用if语句过滤
+&quot;handle-callback-err&quot;: 0,//nodejs 处理错误
+&quot;id-length&quot;: 0,//变量名长度
+&quot;indent&quot;: [2, 4],//缩进风格
+&quot;init-declarations&quot;: 0,//声明时必须赋初值
+&quot;key-spacing&quot;: [0, { &quot;beforeColon&quot;: false, &quot;afterColon&quot;: true }],//对象字面量中冒号的前后空格
+&quot;lines-around-comment&quot;: 0,//行前/行后备注
+&quot;max-depth&quot;: [0, 4],//嵌套块深度
+&quot;max-len&quot;: [0, 80, 4],//字符串最大长度
+&quot;max-nested-callbacks&quot;: [0, 2],//回调嵌套深度
+&quot;max-params&quot;: [0, 3],//函数最多只能有3个参数
+&quot;max-statements&quot;: [0, 10],//函数内最多有几个声明
+&quot;new-cap&quot;: 2,//函数名首行大写必须使用new方式调用，首行小写必须用不带new方式调用
+&quot;new-parens&quot;: 2,//new时必须加小括号
+&quot;newline-after-var&quot;: 2,//变量声明后是否需要空一行
+&quot;object-curly-spacing&quot;: [0, &quot;never&quot;],//大括号内是否允许不必要的空格
+&quot;object-shorthand&quot;: 0,//强制对象字面量缩写语法
+&quot;one-var&quot;: 1,//连续声明
+&quot;operator-assignment&quot;: [0, &quot;always&quot;],//赋值运算符 += -=什么的
+&quot;operator-linebreak&quot;: [2, &quot;after&quot;],//换行时运算符在行尾还是行首
+&quot;padded-blocks&quot;: 0,//块语句内行首行尾是否要空行
+&quot;prefer-const&quot;: 0,//首选const
+&quot;prefer-spread&quot;: 0,//首选展开运算
+&quot;prefer-reflect&quot;: 0,//首选Reflect的方法
+&quot;quotes&quot;: [1, &quot;single&quot;],//引号类型 `` &quot;&quot; ''
+&quot;quote-props&quot;:[2, &quot;always&quot;],//对象字面量中的属性名是否强制双引号
+&quot;radix&quot;: 2,//parseInt必须指定第二个参数
+&quot;id-match&quot;: 0,//命名检测
+&quot;require-yield&quot;: 0,//生成器函数必须有yield
+&quot;semi&quot;: [2, &quot;always&quot;],//语句强制分号结尾
+&quot;semi-spacing&quot;: [0, {&quot;before&quot;: false, &quot;after&quot;: true}],//分号前后空格
+&quot;sort-vars&quot;: 0,//变量声明时排序
+&quot;space-after-keywords&quot;: [0, &quot;always&quot;],//关键字后面是否要空一格
+&quot;space-before-blocks&quot;: [0, &quot;always&quot;],//不以新行开始的块{前面要不要有空格
+&quot;space-before-function-paren&quot;: [0, &quot;always&quot;],//函数定义时括号前面要不要有空格
+&quot;space-in-parens&quot;: [0, &quot;never&quot;],//小括号里面要不要有空格
+&quot;space-infix-ops&quot;: 0,//中缀操作符周围要不要有空格
+&quot;space-return-throw-case&quot;: 2,//return throw case后面要不要加空格
+&quot;space-unary-ops&quot;: [0, { &quot;words&quot;: true, &quot;nonwords&quot;: false }],//一元运算符的前/后要不要加空格
+&quot;spaced-comment&quot;: 0,//注释风格要不要有空格什么的
+&quot;strict&quot;: 2,//使用严格模式
+&quot;use-isnan&quot;: 2,//禁止比较时使用NaN，只能用isNaN()
+&quot;valid-jsdoc&quot;: 0,//jsdoc规则
+&quot;valid-typeof&quot;: 2,//必须使用合法的typeof的值
+&quot;vars-on-top&quot;: 2,//var必须放在作用域顶部
+&quot;wrap-iife&quot;: [2, &quot;inside&quot;],//立即执行函数表达式的小括号风格
+&quot;wrap-regex&quot;: 0,//正则表达式字面量用小括号包起来
+&quot;yoda&quot;: [2, &quot;never&quot;]//禁止尤达条件
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/petard/docs/guide/dict.html" class="prev">
+        字典
+      </a></span> <span class="next"><a href="/petard/docs/guide/project.html">
+        项目目录结构
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/petard/docs/assets/js/app.74946b4f.js" defer></script><script src="/petard/docs/assets/js/2.8aadb4a9.js" defer></script><script src="/petard/docs/assets/js/8.0038f4da.js" defer></script>
+  </body>
+</html>
